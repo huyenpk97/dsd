@@ -57,13 +57,18 @@
 
         </div>
         <div class="col-md-8">
-
+        <?php 
+        // $department_count;
+            $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
+            // echo $a;  
+            $response = json_decode($a);
+            $list_department = $response->departments;
+            $department_count=count($list_department);
+            ?>
           <select class="form-control">
-           <option selected="selected">Phòng hành chính, nhân sự</option>
-           <option>Phòng maketing</option>
-           <option>Phòng kĩ thuật</option>
-           <option>Phòng nhân sự</option>
-           <option>Phòng tài chính</option>
+          <?php for ($i =0; $i< count($list_department); $i++){?>
+            <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
+          <?php } ?> 
          </select>
        </div>
      </div>
@@ -101,7 +106,7 @@
 <!-- /.row -->
 <div class="box">
   <div class="box-header">
-    <h3 class="box-title">Bảng KPI phòng ban</h3>
+    <h3 class="box-title">Bảng KPI nhân viên </h3>
   </div>
   <div class="box-body">
    <table id="example1" class="table table-bordered table-striped">
