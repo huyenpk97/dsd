@@ -229,25 +229,12 @@
                 }
             })
 
-
         })
     });
 
     //Date picker
     $('#datepicker').datepicker({
         autoclose: true
-    })
-
-    $(function () {
-        $('#table_projects').DataTable()
-        $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
-        })
     })
 
     //Initialize Select2 Elements

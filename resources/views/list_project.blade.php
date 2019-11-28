@@ -30,7 +30,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <a href="create_project.html" class="btn btn-success" style="margin: 10px 0 ;">Tạo dự án</a>
+              <a href="{{ route('create_project') }}" class="btn btn-success" style="margin: 10px 0 ;">Tạo dự án</a>
               <table id="table_projects" class="table table-bordered table-striped">
                 <thead>
                 <tr>

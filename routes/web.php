@@ -25,10 +25,10 @@ Route::get('/chitiet_KPIduanNV', function () {
     return view('chitiet_KPIduanNV');
 })->name('chitiet_KPIduanNV');
 Route::get('/chitiet_KPInhanvien', function () {
-    return view('chitiet_KPInhanvien.');
+    return view('chitiet_KPInhanvien');
 })->name('chitiet_KPInhanvien');
 Route::get('/chitiet_KPIphongban', function () {
-    return view('chitiet_KPIphongban.');
+    return view('chitiet_KPIphongban');
 })->name('chitiet_KPIphongban');
 Route::get('/chitiet_quytrinh', function () {
     return view('chitiet_quytrinh');
@@ -55,7 +55,7 @@ Route::get('/detail_project', function () {
 })->name('detail_project');
 
 Route::get('/ds_baocao', function () {
-    return view('ds_baocao')->name('ds_baocao');
+    return view('ds_baocao');
 })->name('ds_baocao');
 
 Route::get('/ds_congviec_thuong_xuyen', function () {
