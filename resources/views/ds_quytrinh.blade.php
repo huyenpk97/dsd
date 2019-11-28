@@ -309,36 +309,22 @@
                 </tr>
                 </thead>
                 <tbody>
+                   <?php 
+           $a = file_get_contents('http://morning-oasis-29841.herokuapp.com/api/procedure-by-type/1');
+           $list = json_decode($a);
+           for ($i=0 ; $i < count($list); $i++){?>
                     <tr>
-                        <td>1</td>
-                        <td>Quy trình sản xuất thuốc phòng ngừa bệnhs</td>
-                        <td>Phòng sản xuất</td>
+                        <td><?=$i?></td>
+                        <td><?=$list[$i]->title ?></td>
+                        <td><?=$list[$i]->added_by ?></td>
                         <td>Kho</td>
-                        <td></td>
+                        <td><?=$list[$i]->created_at ?></td>
                         <td>
                            <a href="chitiet_quytrinh.blade.php" class="btn btn-primary">Chi tiết</a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Quy trình sản xuất thuốc phòng ngừa bệnhs</td>
-                        <td>Phòng sản xuất</td>
-                        <td>Kho</td>
-                        <td></td>
-                        <td>
-                           <a href="chitiet_quytrinh.blade.php" class="btn btn-primary">Chi tiết</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Quy trình sản xuất thuốc phòng ngừa bệnhs</td>
-                        <td>Phòng sản xuất</td>
-                        <td>Kho</td>
-                        <td></td>
-                        <td>
-                           <a href="chitiet_quytrinh.blade.php" class="btn btn-primary">Chi tiết</a>
-                        </td>
-                    </tr>
+                  <?php } ?>
+                   
                 </tbody>
               </table>
             </div>

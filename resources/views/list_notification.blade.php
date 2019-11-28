@@ -310,29 +310,23 @@
                 </tr>
                 </thead>
                 <tbody>
+                   
+                    <?php $response = file_get_contents('https://api-ptpmpt-18.herokuapp.com/api/notification/getByUser/1') ;
+                    // echo $response;
+                    $list_noti= json_decode($response);
+                    for ($i =0; $i< count($list_noti); $i++){?>
                     <tr>
-                        <td>1</td>
-                        <td>Yêu cầu OT thứ 7</td>
-                        <td>Lã Mạnh Cường</td>
-                        <td>Để đảm bảo tiến độ công việc</td>
+                        <td><?=$i?></td>
+                        <td><?=$list_noti[$i]->title?></td>
+                        <td><?=$list_noti[$i]->users[0]?></td>
+                        <td><?=$list_noti[$i]->content?></td>
                         <td>FILE</td>
-                        <td>Đã gửi</td>
+                        <td><?=$list_noti[$i]->__v?></td>
                         <td>
-                            12/12/2019
+                            <?=$list_noti[$i]->time?>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Yêu cầu OT thứ 7</td>
-                        <td>Lã Mạnh Cường</td>
-                        <td>Để đảm bảo tiến độ công việc</td>
-                        <td>FILE</td>
-                        <td>Đã gửi</td>
-                        <td>
-                            12/12/2019
-                        </td>
-                    </tr>
-                    <tr>
+                    </tr> <?php }?>
+                    <!-- <tr>
                         <td>3</td>
                         <td>Yêu cầu OT thứ 7</td>
                         <td>Lã Mạnh Cường</td>
@@ -364,7 +358,7 @@
                         <td>
                             12/12/2019
                         </td>
-                    </tr>
+                    </tr> -->
 
                 </tbody>
               </table>

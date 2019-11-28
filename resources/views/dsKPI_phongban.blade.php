@@ -54,123 +54,123 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
 
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-              <!-- Notifications: style can be found in dropdown.less -->
-              <li class="dropdown notifications-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
-                  <li>
-                    <!-- inner menu: contains the actual data -->
-                    <ul class="menu">
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                          page and may cause design problems
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-users text-red"></i> 5 new members joined
-                        </a>
-                      </li>
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- Notifications: style can be found in dropdown.less -->
+            <li class="dropdown notifications-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-warning">10</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have 10 notifications</li>
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                        page and may cause design problems
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-users text-red"></i> 5 new members joined
+                      </a>
+                    </li>
 
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-user text-red"></i> You changed your username
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="footer"><a href="#">View all</a></li>
-                </ul>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-user text-red"></i> You changed your username
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="footer"><a href="#">View all</a></li>
+              </ul>
+            </li>
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <span class="hidden-xs">Lã Mạnh Cường</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- User image -->
+                <li class="user-header">
+                  <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                  <p>
+                    Lã Mạnh Cường <br> Trưởng phòng hành chính nhân sự
+                    <small>Member since Nov. 2012</small>
+                  </p>
+                </li>
+                <!-- Menu Body -->
+
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                   <a href="#" class="btn btn-default btn-flat">Thông tin</a>
+                 </div>
+                 <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat">Đăng xuất</a>
+                </div>
               </li>
-              <!-- User Account: style can be found in dropdown.less -->
-              <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                  <span class="hidden-xs">Lã Mạnh Cường</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <!-- User image -->
-                  <li class="user-header">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                    <p>
-                      Lã Mạnh Cường <br> Trưởng phòng hành chính nhân sự
-                      <small>Member since Nov. 2012</small>
-                    </p>
-                  </li>
-                  <!-- Menu Body -->
-
-                  <!-- Menu Footer-->
-                  <li class="user-footer">
-                    <div class="pull-left">
-                       <a href="#" class="btn btn-default btn-flat">Thông tin</a>
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Đăng xuất</a>
-                    </div>
-                  </li>
-                </ul>
-              </li>
-
             </ul>
-          </div>
-        </nav>
-</header>
-<!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-  <!-- sidebar: style can be found in sidebar.less -->
-  <section class="sidebar">
-    <!-- Sidebar user panel -->
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-      </div>
-      <div class="pull-left info">
-        <p>Lã Mạnh Cường</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-      </div>
-    </div>
-    <!-- search form -->
-    <form action="#" method="get" class="sidebar-form">
-      <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search...">
-        <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-              </button>
-            </span>
-      </div>
-    </form>
-    <!-- /.search form -->
-    <!-- sidebar menu: : style can be found in sidebar.less -->
-    <ul class="sidebar-menu" data-widget="tree">
-      <li class="header">MAIN NAVIGATION</li>
+          </li>
 
-      <li class="treeview">
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Lã Mạnh Cường</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <span class="input-group-btn">
+            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+            </button>
+          </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MAIN NAVIGATION</li>
+
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Thống kê công việc</span>
             <span class="pull-right-container">
@@ -178,23 +178,23 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="thongke_congviec.blade.php" ><i class="fa fa-circle-o"></i>Thống kê công việc</a></li>
+            <li><a href="thongke_congviec.blade.php" ><i class="fa fa-circle-o"></i>Thống kê công việc</a></li>
           </ul>
         </li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-dashboard"></i> <span>Công việc thường xuyên</span>
-          <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="ds_congviec_thuong_xuyen.blade.php"><i class="fa fa-circle-o"></i>Ds công việc thường xuyên</a></li>
-          <li><a href="taocongviec.blade.php"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
-          <li><a href="ketqua_congviec.blade.php"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
-        </ul>
-      </li>
-      <li class="treeview">
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Công việc thường xuyên</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="ds_congviec_thuong_xuyen.blade.php"><i class="fa fa-circle-o"></i>Ds công việc thường xuyên</a></li>
+            <li><a href="taocongviec.blade.php"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
+            <li><a href="ketqua_congviec.blade.php"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Quản lý KPI</span>
             <span class="pull-right-container">
@@ -202,14 +202,14 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="thongke_KPI.blade.php"><i class="fa fa-circle-o"></i>Thống kê KPI</a></li>
-              <li><a href="dsKPI_nhanvien.blade.php"><i class="fa fa-circle-o"></i>DS KPI nhân viên</a></li>
-              <li><a href="dsKPI_phongban.blade.php"><i class="fa fa-circle-o"></i>Ds KPI phòng ban</a></li>
-              <li><a href="chitiet_KPIduanNV.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI nhân viên trong dự án</a></li>
-              <li><a href="chitiet_KPIduan.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI dự án</a></li>
-              <li><a href="chitiet_KPInhanvien.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI nhân viên</a></li>
-              <li><a href="chitiet_KPIphongban.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI phòng ban</a></li>
-              <li><a href="cauhinh_KPI.blade.php"><i class="fa fa-circle-o"></i>Cấu hình KPI</a></li>
+            <li><a href="thongke_KPI.blade.php"><i class="fa fa-circle-o"></i>Thống kê KPI</a></li>
+            <li><a href="dsKPI_nhanvien.blade.php"><i class="fa fa-circle-o"></i>DS KPI nhân viên</a></li>
+            <li><a href="dsKPI_phongban.blade.php"><i class="fa fa-circle-o"></i>Ds KPI phòng ban</a></li>
+            <li><a href="chitiet_KPIduanNV.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI nhân viên trong dự án</a></li>
+            <li><a href="chitiet_KPIduan.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI dự án</a></li>
+            <li><a href="chitiet_KPInhanvien.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI nhân viên</a></li>
+            <li><a href="chitiet_KPIphongban.blade.php"><i class="fa fa-circle-o"></i>Chi tiết KPI phòng ban</a></li>
+            <li><a href="cauhinh_KPI.blade.php"><i class="fa fa-circle-o"></i>Cấu hình KPI</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -220,12 +220,12 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="ds_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Ds quy trình</a></li>
-              <li><a href="tao_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Tạo quy trình</a></li>
-              <li><a href="congviec_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Ds công việc theo quy trình</a></li>
-              <li><a href="taocongviec_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
-              <li><a href="chitiet_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Chi tiết quy trình</a></li>
-              <li><a href="detail_task_project.blade.php"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
+            <li><a href="ds_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Ds quy trình</a></li>
+            <li><a href="tao_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Tạo quy trình</a></li>
+            <li><a href="congviec_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Ds công việc theo quy trình</a></li>
+            <li><a href="taocongviec_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
+            <li><a href="chitiet_quytrinh.blade.php"><i class="fa fa-circle-o"></i>Chi tiết quy trình</a></li>
+            <li><a href="detail_task_project.blade.php"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -242,7 +242,7 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
             <li><a href="detail_task_project.blade.php"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
           </ul>
         </li>
-      <li class="treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Quản lý thông báo</span>
             <span class="pull-right-container">
@@ -267,60 +267,67 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
             <li><a href="pheduyet_baocao.blade.php"><i class="fa fa-circle-o"></i> Phê duyệt báo cáo</a></li>
           </ul>
         </li>
-    </ul>
-  </section>
-</aside>
+      </ul>
+    </section>
+  </aside>
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <h1>
-      KPI phòng ban
-      <small></small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="#">KPI phòng ban</a></li>
-      <li class="active">Danh sách KPI phòng ban</li>
-    </ol>
-  </section>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        KPI phòng ban
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">KPI phòng ban</a></li>
+        <li class="active">Danh sách KPI phòng ban</li>
+      </ol>
+    </section>
 
-  <!-- Main content -->
-  <section class="content">
+    <!-- Main content -->
+    <section class="content">
 
-    <!-- SELECT2 EXAMPLE -->
-    <div class="box box-default">
-      <div class="box-header with-border">
-        <h3 class="box-title">Danh sách KPI </h3>
+      <!-- SELECT2 EXAMPLE -->
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">Danh sách KPI </h3>
 
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
         </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body">
+        <!-- /.box-header -->
+        <div class="box-body">
 
-       <div class="col-md-5">
+         <div class="col-md-5">
 
 
-        </div>
-        <div class="col-md-1">
+         </div>
+         <div class="col-md-1">
           <label>Sắp xếp theo</label>
 
         </div>
+        <?php 
+        // $department_count;
+        $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
+        // echo $a;  
+        $response = json_decode($a);
+
+        $list_department = $response->departments;
+        $department_count=count($list_department);
+        ?>
         <div class="col-md-3">
           <label>Phòng ban</label>
           <select class="form-control">
-           <option selected="selected">Phòng hành chính, nhân sự</option>
-           <option>Phòng maketing</option>
-           <option>Phòng kĩ thuật</option>
-           <option>Phòng nhân sự</option>
-           <option>Phòng tài chính</option>
-         </select>
-       </div>
-       <div class="col-md-3">
+           <?php for ($i =0; $i< count($list_department); $i++){?>
+            <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
+          <?php } ?> 
+        </select>
+      </div>
+      <div class="col-md-3">
         <label>Thứ tự</label>
         <select class="form-control">
           <option>Tăng dần</option>
@@ -343,45 +350,28 @@ href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,30
             <th>Phòng ban</th>
             <th>KPI</th>
             <th style="width: 100px"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Phòng hành chính nhân sự</td>
-              <td>35</td>
-              <td><a href="chitiet_KPIphongban.blade.php">Chi tiết</a></td>
-            </tr>
-            <tr>
-             <td>2</td>
-             <td>Phòng kế toán</td>
-             <td>65</td>
-             <td><a href="chitiet_KPIphongban.blade.php">Chi tiết</a></td>
-           </tr>
+          </tr>
+        </thead>
+        <tbody>
+          <?php for ($i=1 ; $i <= $department_count; $i++){
+           $a = file_get_contents('http://206.189.34.124:5000/api/group8/kpi_results?department_id='.$i);
+           $kpi = json_decode($a);
+           // echo $kpi->total;
+           ?>
            <tr>
-            <td>3</td>
-            <td>Phòng Maketting</td>
-            <td>6</td>
+            <td><?=$i?></td>
+            <td><?php echo $list_department[$i-1]->department_name?></td>
+            <td> <?php echo $kpi->total?></td>
             <td><a href="chitiet_KPIphongban.blade.php">Chi tiết</a></td>
           </tr>
-          <tr>
-           <td>4 </td>
-           <td>Phòng sale</td>
-           <td>5</td>
-           <td><a href="chitiet_KPIphongban.blade.php">Chi tiết</a></td>
-         </tr>
-         <tr>
-           <td>4 </td>
-           <td>Xưởng sản xuất</td>
-           <td>5</td>
-           <td><a href="chitiet_KPIphongban.blade.php">Chi tiết</a></td>
-         </tr>
-       </tbody>
+        <?php } ?>
+      
+   </tbody>
 
-     </table>
-   </div>
+ </table>
+</div>
 
- </div>
+</div>
 
 <!-- /.box-body -->
 
