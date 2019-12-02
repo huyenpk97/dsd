@@ -101,19 +101,19 @@
                     let list_project = result.results;
                     for (let index = 0; index < result.count ; index++) {
                       // table_projects là id của thẻ table
-                      $('#table_projects tbody').append(` 
-                      <tr>
-                            <td>${index }</td>
-                            <td>${list_project[index].name }</td> // ví dụ (1) 
-                            <td>${formatDate(new Date(list_project[index].deadline))}</td>
-                            <td>${list_project[index].created_by }</td>
-                            <td>${list_project[index].status }</td>
-                            <td>
-                                <button class="btn btn-warning"><a href="http://3.1.20.54/v1/projects/${list_project[index].id}">Chi tiết</a></button>
-                                <button class="btn btn-info">Sửa</button>
-                                <button class="btn btn-danger">Xóa</button>
-                            </td>
-                        </tr>`); // thay từ chỗ thẻ <tr> đến hết </tr> bằng đoạn code chứa <tr> đến </tr> với nội dung tương ứng trong thẻ table bên trên. Chú ý dữ liệu được đổ ra theo cú pháp ${} như ví dụ (1)
+                      $('#table_projects tbody').append(
+                      '<tr>' +
+                            '<td>' + index + '</td>' +
+                            '<td>' + list_project[index].name +'</td>' +
+                            '<td>' + formatDate(new Date(list_project[index].deadline))+ '</td>' +
+                            '<td>' + list_project[index].created_by + '</td>' +
+                            '<td>' + list_project[index].status + '</td>' +
+                            '<td>' +
+                                '<button class="btn btn-warning"><a href="{{ route("detail_project", ' + list_project[index].id +' )}}">Chi tiết</a></button>' +
+                                '<button class="btn btn-info">Sửa</button>' +
+                                '<button class="btn btn-danger">Xóa</button>' +
+                            '</td>' +
+                        '</tr>'); 
                   }
                       
                     }

@@ -47,7 +47,6 @@
                 <ul class="treeview-menu">
                 <li><a href="{{ route('ds_congviec_thuong_xuyen') }}"><i class="fa fa-circle-o"></i>Ds công việc thường xuyên</a></li>
                 <li><a href="{{ route('taocongviec')}}"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
-                <li><a href="{{ route('ketqua_congviec')}}"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -94,7 +93,6 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('list_project')}}"><i class="fa fa-circle-o"></i>Ds dự án</a></li>
                     <li><a href="{{ route('create_project')}}"><i class="fa fa-circle-o"></i>Tạo dự án</a></li>
-                    <li><a href="{{ route('detail_project')}}"><i class="fa fa-circle-o"></i>Chi tiết dự án</a></li>
                     <li><a href="{{ route('detail_task_project')}}"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
                 </ul>
             </li>

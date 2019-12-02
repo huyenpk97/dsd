@@ -164,6 +164,7 @@
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
+            
             @yield('content')
 
         </section>
@@ -211,25 +212,14 @@
 <!-- page script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
 @stack('js')
 <!-- Page script -->
 <script>
     $(function () {
-        $('.btn-create').on('click', function(e){
-            e.preventDefault();
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Tạo dự án thành công',
-                showConfirmButton: true,
-                timer: 1500
-            }).then((result) => {
-                if (result.value) {
-                    window.location="list_project.blade.php";
-                }
-            })
-
-        })
+       
     });
 
     //Date picker
