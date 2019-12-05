@@ -77,7 +77,7 @@
         ?>
         <div class="col-md-3">
           <label>Phòng ban</label>
-          <select class="form-control">
+          <select class="form-control" id="sel_depart">
            <?php for ($i =0; $i< count($list_department); $i++){?>
             <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
           <?php } ?> 
@@ -104,20 +104,25 @@
           <tr>
             <th>STT</th>
             <th>Phòng ban</th>
-            <th>KPI</th>
+            <th>Tên tiêu chí</th>
+            <th>Tỉ lệ hoàn thành</th>
+            <th>Trọng số</th>
             <th style="width: 100px"></th>
           </tr>
         </thead>
         <tbody>
-          <?php for ($i=1 ; $i <= $department_count; $i++){
-           $a = file_get_contents('http://206.189.34.124:5000/api/group8/kpi_results?department_id='.$i);
+          <?php
+          $id = 1;
+           $a = file_get_contents('http://206.189.34.124:5000/api/group8/kpi_results?department_id='.$id);
            $kpi = json_decode($a);
-           // echo $kpi->total;
+           for ( $i=0 ; $i < count($kpi->kpi_results[0]->criterias); $i++){
            ?>
            <tr>
             <td><?=$i?></td>
-            <td><?php echo $list_department[$i-1]->department_name?></td>
-            <td> <?php echo $kpi->total?></td>
+            <td><?php echo $list_department[$kpi->kpi_results[0]->department_id]->department_name?></td>
+            <td> <?php echo $kpi->kpi_results[0]->criterias[$i]->name?></td>
+            <td> <?php echo $kpi->kpi_results[0]->criterias[$i]->complete_rating?></td>
+            <td> <?php echo $kpi->kpi_results[0]->criterias[$i]->ratio?></td>
             <td><a href="chitiet_KPIphongban.blade.php">Chi tiết</a></td>
           </tr>
         <?php } ?>
@@ -192,6 +197,12 @@
 <!-- Page script -->
 <script>
   $(function () {
+
+    $('#sel_depart').change(function(){
+        let id = $('#sel_depart').val()
+        console.log(id);
+        
+    })
     //Initialize Select2 Elements
     $('.select2').select2()
 

@@ -3,28 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9091a606-34bd-455c-829d-c79632016b08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/cauhinh_KPI.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/cauhinh_KPI.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/chitiet_KPIduan.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/chitiet_KPIduan.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/chitiet_KPIduanNV.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/chitiet_KPIduanNV.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/chitiet_KPInhanvien.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/chitiet_KPInhanvien.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/chitiet_KPIphongban.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/chitiet_KPIphongban.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/chitiet_quytrinh.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/chitiet_quytrinh.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/congviec_quytrinh.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/congviec_quytrinh.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/create_notification.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/create_notification.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/create_project.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/create_project.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/create_task_project.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/create_task_project.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/detail_project.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/detail_project.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/detail_task_project.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/detail_task_project.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/dsKPI_nhanvien.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dsKPI_nhanvien.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/dsKPI_phongban.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dsKPI_phongban.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/ds_baocao.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/ds_baocao.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/ds_quytrinh.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/ds_quytrinh.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/ketqua_congviec.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/ketqua_congviec.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/list_project.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/list_project.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/taocongviec.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/taocongviec.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/taocongviec_quytrinh.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/taocongviec_quytrinh.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -136,7 +114,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="C:/Projects/on-tds" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunDashboard">
@@ -167,7 +145,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574911392957</updated>
-      <workItem from="1574911394091" duration="10492000" />
+      <workItem from="1574911394091" duration="11211000" />
     </task>
     <servers />
   </component>

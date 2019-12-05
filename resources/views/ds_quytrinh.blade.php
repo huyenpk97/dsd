@@ -52,7 +52,7 @@
                         <td>Kho</td>
                         <td><?=$list[$i]->created_at ?></td>
                         <td>
-                           <a href="chitiet_quytrinh.blade.php" class="btn btn-primary">Chi tiết</a>
+                        <a href="{{ route('chitiet_quytrinh')}}" class="btn btn-primary">Chi tiết</a>
                         </td>
                     </tr>
                   <?php } ?>
