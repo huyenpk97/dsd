@@ -41,6 +41,12 @@
     {{-- <script src="{{ asset('js/format_managements/index.js') }}"></script> --}}
 @endpush
 @section('content')
+
+<?php 
+  $list_department =  json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
+  $list_employee = [] ;  
+
+?>
    
 <section class="content-header">
   <h1>
@@ -61,75 +67,98 @@
   <div class="box box-default">
     <div class="box-header with-border">
       <div class="box-tools pull-right">
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+        <button type="button" class="btn btn-box-tool" data-widget="csllapse"><i class="fa fa-minus"></i></button>
+         
       </div>
-    </div>
+    </div>  
     <!-- /.box-header -->
     <div class="box-body">
+    <form id="create_task_form">
+        <div class="form-group">
+          <label>Tên công việc</label>
+          <input type="text" class="form-control" required id="name_task"  data-parsley-type="text" name="name_task" placeholder="Tên công việc...">
+        </div>
+        <div class="form-group">
+          <label>Mô tả:</label>
+          <textarea class="form-control" required id="description" name="description" rows="5" placeholder="Mô tả ..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Phòng ban phụ trách</label>
+          <select class="form-control select2" required id="department" name="department" style="width: 100%;">
+            <?php 
+              for ($i =0; $i < count($list_department); $i++){?>
+              <option value="{ 'id': '<?= $list_department[$i]->id; ?>','name': '<?= $list_department[$i]->department_name; ?>'}"> 
+                
+                <?php echo ($list_department[$i]->department_name)?></option>
+            <?php } ?> 
 
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Nhân viên thực hiện</label>
+          <select class="form-control select2" required id="department" name="department" style="width: 100%;">
+            <option selected="selected" value="Phòng hành chính, nhân sự">Phòng hành chính, nhân sự</option>
+            <option value="Phòng maketing">Phòng maketing</option>
+            <option value="Phòng kĩ thuật">Phòng kĩ thuật</option>
+            <option value="Phòng nhân sự">Phòng nhân sự</option>
+            <option value="Phòng tài chính">Phòng tài chính</option>
 
+          </select>
+        </div>
 
-      <div class="form-group">
-        <label>Tên công việc</label>
-        <input type="text" class="form-control" id="name_task" placeholder="Tên công việc...">
-      </div>
-      <div class="form-group">
-        <label>Phòng ban phụ trách</label>
-        <select class="form-control select2" id="department" style="width: 100%;">
-          <option selected="selected" value="Phòng hành chính, nhân sự">Phòng hành chính, nhân sự</option>
-          <option value="Phòng maketing">Phòng maketing</option>
-          <option value="Phòng kĩ thuật">Phòng kĩ thuật</option>
-          <option value="Phòng nhân sự">Phòng nhân sự</option>
-          <option value="Phòng tài chính">Phòng tài chính</option>
+        <div class="form-group">
+          <label>Người kiểm tra</label>
+          <select class="form-control select2" id="department" style="width: 100%;">
+            <option selected="selected" value="Phòng hành chính, nhân sự">Phòng hành chính, nhân sự</option>
+            <option value="Phòng maketing">Phòng maketing</option>
+            <option value="Phòng kĩ thuật">Phòng kĩ thuật</option>
+            <option value="Phòng nhân sự">Phòng nhân sự</option>
+            <option value="Phòng tài chính">Phòng tài chính</option>
 
+          </select>
+        </div>
+        <!-- /.form-group -->
+        <div class="form-group">
+          <label>Ngày bắt đầu:</label>
+
+          <div class="input-group date">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" required class="form-control pull-right" data-parsley-type="text" id="start_date" name="start_date">
+          </div>
+          <!-- /.input group -->
+        </div>
+        <div class="form-group">
+          <label>Deadline:</label>
+
+          <div class="input-group date">
+            <div>
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" required class="form-control pull-right" data-parsley-type="text" name="deadline" id="deadline">
+            </div>
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.col -->
+        <div class="form-group">
+          <label>Các phòng ban liên quan</label>
+          <select class="form-control select2" multiple="multiple"  id="departments_related" name="departments_related" data-placeholder="Chọn các phòng ban"
+          style="width: 100%;">
+          <?php for ($i =0; $i< count($list_department); $i++){?>
+              <option value="{ 'id': '<?= $list_department[$i]->id; ?>','name': '<?= $list_department[$i]->department_name; ?>'}">
+                <?php echo ($list_department[$i]->department_name)?>
+              </option>
+            <?php } ?> 
         </select>
       </div>
-
       <div class="form-group">
-        <label>Nhận xét:</label>
-        <textarea class="form-control" id="remask" rows="5" placeholder="Nhận xét ..."></textarea>
+        <!-- /.col -->
+        <button type="submit" class="btn btn-block btn-success btn-create">Tạo công việc</button>
       </div>
-      <!-- /.form-group -->
-      <div class="form-group">
-        <label>Ngày bắt đầu:</label>
-
-        <div class="input-group date">
-          <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-          </div>
-          <input type="text" class="form-control pull-right" id="start_date">
-        </div>
-        <!-- /.input group -->
-      </div>
-      <div class="form-group">
-        <label>Deadline:</label>
-
-        <div class="input-group date">
-          <div class="input-group-addon">
-            <i class="fa fa-calendar"></i>
-          </div>
-          <input type="text" class="form-control pull-right" id="deadline">
-        </div>
-        <!-- /.input group -->
-      </div>
-      <!-- /.col -->
-      <div class="form-group">
-        <label>Các phòng ban liên quan</label>
-        <select class="form-control select2" id="departments_related" data-placeholder="Chọn các phòng ban"
-        style="width: 100%;">
-        <option>Phòng maketing</option>
-        <option>Phòng kĩ thuật</option>
-        <option>Phòng nhân sự</option>
-        <option>Phòng tài chính</option>
-        <option>Phòng sản xuẩt</option>
-        <option>Ban lãnh đạo</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <!-- /.col -->
-      <button type="button" class="btn btn-block btn-success btn-create">Tạo công việc</button>
-    </div>
+    </form>
     <!-- /.row -->
   </div>
   <!-- /.box-body -->
@@ -144,7 +173,6 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
  <!-- Bootstrap 3.3.7 -->
  <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
  <!-- Select2 -->
@@ -173,54 +201,78 @@
  <script>
   $(function () {
 
-    $('.btn-create').on('click', function(e){
-      e.preventDefault();
-      $name_task = $('#name_task').val();
-      $department =  $('#department').val();
-      $remask =  $('#remask').val();
-      $start_date = $('#start_date').val();
-      $deadline =  $('#deadline').val();
-      $departments_related =  $('#departments_related').val();
-
-      $.ajax({
-            url : "https://jsonplaceholder.typicode.com/todos/1", // link API
-            type : "post", // Phương thức POST
-            data : {
-              name_task : $name_task,
-              department : $department,
-              remask : $remask,
-              start_date : $start_date,
-              deadline : $deadline,
-              departments_related : $departments_related// Dữ liệu gửi lên nếu dùng phương thức Post để tạo, sửa
+    
+    $('#create_task_form').validate({ // initialize the plugin
+        rules: {
+            task_name: {
+                required: true
             },
-            success : function (result){ // result là kết quả trả về khi gọi đến API
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Tạo công việc thành công',
-                showConfirmButton: true,
-                timer: 1500
-              }).then((result) => {
-                if (result.value) {
-                  window.location="ds_congviec_thuong_xuyen.html";
-                }
-              })
+            description: {
+                required: true,
+            },
+            start_date: {
+                required: true,
+            },
+            deadline: {
+                required: true,
+            },
+            department: {
+                required: true,
             }
-        });
-
-        Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Tạo công việc thành công',
-        showConfirmButton: true,
-        timer: 1500
-      }).then((result) => {
-        if (result.value) {
-          window.location="ds_congviec_thuong_xuyen.html";
         }
-      })
+    });
+    $('.create_task_form').on('submit', function(e){
+      e.preventDefault();
+      alert('ahihi')
+          name_task = $('#name_task').val();
+          department =  $('#department').val();
+          description =  $('#description').val();
+          start_date = $('#start_date').val();
+          start_date = new Date(start_date);
+          start_date = start_date.toISOString();
+          deadline =  $('#deadline').val();
+          deadline = new Date(deadline);
+          deadline = deadline.toISOString();
+          coDepartments =  $('#departments_related').val();
 
-
+          $.ajax({
+                url : "https://falling-frog-38743.pktriot.net/api/recurrent-tasks/", 
+                type : "post",
+                data : {
+                  name : name_task,
+                  department : department,
+                  coDepartments : coDepartments,
+                  creator : {"id": "73936b96-03c1-4544-a858-a39deb469576",
+                              "name": "Huy Ta Quoc"},
+                  reviewer: {
+                    "id": "73936b96-03c1-4544-a858-a39deb469576",
+                    "name": "Huy Ta Quoc"
+                  },
+                  doer: {
+                    "id": "73936b96-03c1-4544-a858-a39deb469576",
+                    "name": "Huy Ta Quoc"
+                  },
+                  description : description,
+                  start : start_date,
+                  finish : deadline,
+                  departments_related : departments_related,
+                  "type": "individual",
+                  "status": "doing"
+                },
+                success : function (result){ // result là kết quả trả về khi gọi đến API
+                  Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Tạo công việc thành công',
+                    showConfirmButton: true,
+                    timer: 1500
+                  }).then((result) => {
+                    if (result.value) {
+                      window.location="ds_congviec_thuong_xuyen.html";
+                    }
+                  })
+                }
+            });
     })
     //Initialize Select2 Elements
     $('.select2').select2()

@@ -50,8 +50,8 @@ Route::get('/detail_task_project', function () {
     return view('detail_task_project');
 })->name('detail_task_project');
 
-Route::get('/detail_project', function () {
-    return view('detail_project');
+Route::get('/detail_project/{id}', function ($id) {
+    return view('detail_project', compact($id));
 })->name('detail_project');
 
 Route::get('/ds_baocao', function () {
@@ -74,8 +74,8 @@ Route::get('/dsKPI_phongban', function () {
     return view('dsKPI_phongban');
 })->name('dsKPI_phongban');
 
-Route::get('/ketqua_congviec', function () {
-    return view('ketqua_congviec');
+Route::get('ketqua_congviec/{id}', function ($id) {
+    return view('ketqua_congviec', compact('id'));
 })->name('ketqua_congviec');
 
 Route::get('/list_notification', function () {

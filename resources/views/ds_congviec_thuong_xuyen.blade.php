@@ -15,11 +15,84 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
      folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="{{ asset('dist/css/skins/_all-skins.min.css')}}">
+<style>
+
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+  padding: 0 !important;
+}
+
+</style>
 @endpush
 @push('footer')
     {{-- <script src="{{ asset('js/format_managements/index.js') }}"></script> --}}
 @endpush
 @section('content')
+<?php 
+   $result = file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/');
+   $list_recurrent_task = json_decode($result);
+   $numberTasks = count($list_recurrent_task);
+
+  $searchStatusDoing = array(
+    "status" => ["doing"]
+  );
+
+  $searchStatusOverdue = array(
+    "status" => ["overdue"]
+  );
+
+  $searchStatusFinished = array(
+    "status" => ["finished"]
+  );
+
+  
+
+  function callAPI($method, $url, $data){
+    $curl = curl_init();
+ 
+    switch ($method){
+       case "POST":
+          curl_setopt($curl, CURLOPT_POST, 1);
+          if ($data)
+             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+          break;
+       case "PUT":
+          curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+          if ($data)
+             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);			 					
+          break;
+       default:
+          if ($data)
+             $url = sprintf("%s?%s", $url, http_build_query($data));
+    }
+ 
+    // OPTIONS:
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+       'APIKEY: 111111111111111111111',
+       'Content-Type: application/json',
+    ));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+ 
+    // EXECUTE:
+    $result = curl_exec($curl);
+    if(!$result){die("Connection Failure");}
+    curl_close($curl);
+    return $result;
+ }
+
+ 
+$make_call_doing = callAPI('POST', 'https://falling-frog-38743.pktriot.net/api/recurrent-tasks/search?offset=0', json_encode($searchStatusDoing));
+$make_call_finished = callAPI('POST', 'https://falling-frog-38743.pktriot.net/api/recurrent-tasks/search?offset=0', json_encode($searchStatusFinished));
+$make_call_overdue = callAPI('POST', 'https://falling-frog-38743.pktriot.net/api/recurrent-tasks/search?offset=0', json_encode($searchStatusOverdue));
+$response_doing = json_decode($make_call_doing, true);
+$response_finished = json_decode($make_call_finished, true);
+$response_overdue = json_decode($make_call_overdue, true);
+$numberTasksDoing = count($response_doing);
+$numberTasksFinished = count($response_finished);
+$numberTasksOverdue = count($response_overdue);
+
+?>
      <!-- Content Header (Page header) -->
      <section class="content-header">
       <h1>
@@ -75,7 +148,7 @@
 
                   <tr>
                     <td>
-                      <button type="button" class="btn btn-block btn-primary">10</button>
+                      <button type="button" class="btn btn-block btn-primary"><?php echo $numberTasks ;?></button>
                     </td>
                     <td>
                       Tổng công việc
@@ -84,7 +157,7 @@
                   </tr>
                   <tr>
                     <td>
-                      <button type="button" class="btn btn-block btn-success">5</button>
+                      <button type="button" class="btn btn-block btn-success"><?php echo $numberTasksFinished ;?></button>
                     </td>
                     <td>
                       Số công việc đã hoàn thành
@@ -93,7 +166,7 @@
                   </tr>
                   <tr>
                     <td>
-                      <button type="button" class="btn btn-block btn-info">4</button>
+                      <button type="button" class="btn btn-block btn-info"><?php echo $numberTasksDoing ;?></button>
                     </td>
                     <td>
                       Số công việc đang diễn ra
@@ -102,7 +175,7 @@
                   </tr>
                   <tr>
                     <td>
-                      <button type="button" class="btn btn-block btn-danger">1</button>
+                      <button type="button" class="btn btn-block btn-danger"><?php echo $numberTasksOverdue ;?></button>
                     </td>
                     <td>
                       Số công việc chậm tiến độ
@@ -158,7 +231,9 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <a href="taocongviec.blade.php" class="btn btn-success">Tạo công việc</a>
+              <a href="{{ route('taocongviec') }}" class="btn btn-success">Tạo công việc</a>
+              <br>
+              <br>
               <table id="table_recurrent_task" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -166,49 +241,39 @@
                   <th>Tên công việc</th>
                   <th>Phòng ban phụ trách</th>
                   <th>Phòng  ban liên quan</th>
+                  <th>Trạng thái thực hiện</th>
                   <th>Trạng thái</th>
                   <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
+                <?php $index = 1; ?>
+                @foreach($list_recurrent_task as $current_task)
                     <tr>
-                        <td>1</td>
-                        <td>Quy trình sản xuất thuốc phòng ngừa bệnh</td>
-                        <td>Phòng sản xuất</td>
-                        <td>Kho</td>
+                        <td><?php  echo $index++ ;?></td>
+                        <td><?php  echo $current_task->name; ?></td>
+                        <td><?php  echo ( $current_task->department->name ?? '' ) ; ?></td>
+                        <td> 
+                          <?php  
+                          if (!empty($current_task->codepartment)) 
+                          {
+                            $coDepartment = array_column($current_task->codepartment, 'name');
+                            $coDepartmentString = implode("|",$coDepartment);
+                          }
+                          ?>
+                        </td>
                         <td>
-                          <input type="text" class="knob" value="80" data-min="0" data-max="100" data-width="90" data-height="90" data-fgColor="#00a65a">
-                          Đang thực hiện </td>
-                        <td>
-                            <a href="ketqua_congviec.blade.php" class="btn btn-primary">Chi tiết</a>
-                            <button class="btn btn-info btn-edit">Sửa</button>
-                            <button class="btn btn-danger btn-delete">Xóa</button>
+                          <input type="text" class="knob" value="<?php echo $current_task->percentComplete; ?>" data-min="0" data-max="100"
+                          data-fgColor="<?php
+                              echo ($current_task->percentComplete > 50 ? '#00a65a' : '#dd4b39' ) ;
+                          ?>"></td>
+                          <td><?php echo $current_task->status; ?></td>
+                        <td>  
+                            <a href="{{ route('ketqua_congviec', $current_task->_id)}}" class="btn btn-primary">Chi tiết</a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Quy trình sản xuất thuốc phòng ngừa bệnhs</td>
-                        <td>Phòng sản xuất</td>
-                        <td>Kho</td>
-                        <td>Đã hoàn thành</td>
-                        <td>
-                            <a href="ketqua_congviec.blade.php" class="btn btn-primary">Chi tiết</a>
-                            <button class="btn btn-info btn-edit">Sửa</button>
-                            <button class="btn btn-danger btn-delete">Xóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Quy trình sản xuất thuốc phòng ngừa bệnhs</td>
-                        <td>Phòng sản xuất</td>
-                        <td>Kho</td>
-                        <td></td>
-                        <td>
-                            <a href="ketqua_congviec.blade.php" class="btn btn-primary">Chi tiết</a>
-                            <button class="btn btn-info btn-edit">Sửa</button>
-                            <button class="btn btn-danger btn-delete">Xóa</button>
-                        </td>
-                    </tr>
+
+                  @endforeach
                 </tbody>
               </table>
             </div>
@@ -238,30 +303,6 @@
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
  <script>
   $(function () {
-
-    // get ds công việc thường xuyên
-    $.ajax({
-            url : "https://falling-frog-38743.pktriot.net/api/recurrent-tasks/", // link API
-            type : "get", // Phương thức POST
-            success : function (result){ // result là kết quả trả về khi gọi đến API
-            console.log(result);
-              // let list_task = result.current_task;
-              // $('#table_recurrent_task tbody').append(`
-              //       <tr>
-              //           <td>2</td>
-              //           <td>${list_task.name_task}</td>
-              //           <td>${list_task.department}</td>
-              //           <td>${list_task.departments_related}</td>
-              //           <td>${list_task.start_time}</td>
-              //           <td>${list_task.deadline}</td>
-              //           <td>
-              //               <a href="link_edit/${list_task.id}"><button class="btn btn-info">Sửa</button></a>
-              //               <button class="btn btn-danger btn-delete">Xóa</button>
-              //           </td>
-              //       </tr>`);
-            }
-        });
-
     $('.btn-edit').on('click', function(e){
       Swal.fire({
             position: 'center',
@@ -299,11 +340,18 @@
       'autoWidth'   : false
     })
   })
+  <?php $finishedPercent =  floor(($numberTasksFinished/$numberTasks)*100); ?>
+  <?php $overduePercent = floor(($numberTasksOverdue/$numberTasks)*100); ?>
+  <?php $doingPercent =  100 - $overduePercent - $finishedPercent; ?>
+
+  let finishedPercent = Number(<?php echo $finishedPercent; ?>);
+  let doingPercent = Number(<?php echo $doingPercent; ?>);
+  let overduePercent = Number(<?php echo $overduePercent ; ?>);
 
   var donutData = [
-     { label: '', data: 50, color: '#0B610B' },
-     { label: '', data: 40, color: '#01DFD7' },
-     { label: '', data: 10, color: '#DF3A01' }
+     { label: '', data: finishedPercent, color: '#0B610B' },
+     { label: '', data: doingPercent, color: '#01DFD7' },
+     { label: '', data: overduePercent, color: '#DF3A01' }
      ]
      $.plot('#donut-chart', donutData, {
       series: {
@@ -315,7 +363,6 @@
             show     : true,
             radius   : 2 / 3,
             formatter: labelFormatter,
-            threshold: 0.1
           }
 
         }
@@ -324,72 +371,32 @@
         show: false
       }
     })
-    /*
+  
+
+  /*
    * Custom Label formatter
    * ----------------------
    */
    function labelFormatter(label, series) {
+     console.log(series)
     return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
     + label
     + '<br>'
-    + Math.round(series.percent) + '%</div>'
+    + series.percent + '%</div>'
   }
 
   /* jQueryKnob */
 
   $(".knob").knob({
-      /*change : function (value) {
-       //console.log("change : " + value);
-       },
-       release : function (value) {
-       console.log("release : " + value);
-       },
-       cancel : function () {
-       console.log("cancel : " + this.value);
-       },*/
-      draw: function () {
-
-        // "tron" case
-        if (this.$.data('skin') == 'tron') {
-
-          var a = this.angle(this.cv)  // Angle
-              , sa = this.startAngle          // Previous start angle
-              , sat = this.startAngle         // Start angle
-              , ea                            // Previous end angle
-              , eat = sat + a                 // End angle
-              , r = true;
-
-          this.g.lineWidth = this.lineWidth;
-
-          this.o.cursor
-          && (sat = eat - 0.3)
-          && (eat = eat + 0.3);
-
-          if (this.o.displayPrevious) {
-            ea = this.startAngle + this.angle(this.value);
-            this.o.cursor
-            && (sa = ea - 0.3)
-            && (ea = ea + 0.3);
-            this.g.beginPath();
-            this.g.strokeStyle = this.previousColor;
-            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
-            this.g.stroke();
-          }
-
-          this.g.beginPath();
-          this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
-          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
-          this.g.stroke();
-
-          this.g.lineWidth = 2;
-          this.g.beginPath();
-          this.g.strokeStyle = this.o.fgColor;
-          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-          this.g.stroke();
-
-          return false;
-        }
-      }
+    'readOnly': true,
+    'min':0,
+    'max':100,
+    'readOnly': true,
+    'width': 40,
+    'height': 40,
+    'dynamicDraw': true,
+    'thickness': 0.2,
+    'tickColorizeValues': true
     });
 </script>
 @endpush

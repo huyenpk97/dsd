@@ -9,10 +9,12 @@
     {{-- <script src="{{ asset('js/format_managements/index.js') }}"></script> --}}
 @endpush
 @section('content')
-   
+@php
+$recurrent_task = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
+@endphp
 <section class="content-header">
   <h1>
-    Kết quả công việc
+    Chi tiết công việc {{ $recurrent_task->name ?? ''}}
     <small></small>
   </h1>
   <ol class="breadcrumb">
@@ -25,7 +27,7 @@
 <!-- Main content -->
 <section class="content">
   <!-- /.row -->
-  <div class="box-body">
+  <div class="box-body">  
     <div class="row">
 
       <!-- /.col -->
@@ -35,14 +37,22 @@
           <div class="box-header with-border">
             <!-- Bar chart -->
 
-            <div class="col-md-4">Phòng</div><div class="col-md-8">Sale</div>
-            <div class="col-md-4">Tên công việc:</div><div class="col-md-8">Tính lương nhân viênle</div>
-            <div class="col-md-4">Mô tả công việc:</div><div class="col-md-8">Tính lương thôi</div>
-            <div class="col-md-4">Deadline:</div><div class="col-md-8">20/11/2019</div>
-            <div class="col-md-4">Nhân viên phòng ban cùng thực hiện:</div><div class="col-md-8"> Phòng nhân sự, phòng kế toán</div>
-            <div class="col-md-4">Trạng thái công việc:</div><div class="col-md-8">65%</div>
-            <div class="col-md-4">Thời gian hoàn thành:</div><div class="col-md-8">20/11/2019</div>
-            <div class="col-md-4">Link báo cáo:</div><div class="col-md-8"><a href="taocongviec.blade.php">Tại đây</a></div>
+          <div class="col-md-4">Phòng</div><div class="col-md-8">{{ $recurrent_task->department->name ?? 'Phòng'}}</div>
+          <div class="col-md-4">Tên công việc:</div><div class="col-md-8">{{ $recurrent_task->name ?? ''}}</div>
+            <div class="col-md-4">Mô tả công việc:</div><div class="col-md-8">{{ $recurrent_task->description ?? ''}}</div>
+            <div class="col-md-4">Ngày bắt đầu:</div><div class="col-md-8">{{ date_format(date_create($recurrent_task->start),"Y/m/d") ?? ''}}</div>
+            <div class="col-md-4">Deadline:</div><div class="col-md-8">{{ date_format(date_create($recurrent_task->due),"Y/m/d") ?? ''}}</div>
+            @if(!empty($record))
+          <div class="col-md-4">Phòng ban cùng thực hiện:</div><div class="col-md-8"><?php
+              $coDepartment = array_column($recurrent_task->codepartment, 'name');
+              $coDepartmentString = implode("|", $coDepartment);
+
+              echo $coDepartmentString;
+            ?></div>
+            @endif
+          <div class="col-md-4">Nhân viên thực hiện:</div><div class="col-md-8"> {{ $recurrent_task->doer->name }}</div>
+          <div class="col-md-4">Trạng thái công việc:</div><div class="col-md-8">{{ $recurrent_task->percentComplete}}%</div>
+          <div class="col-md-4">Trạng thái: </div><div class="col-md-8">{{ $recurrent_task->status}}</div>
             <!-- /.box -->
           </div>
         </div>
