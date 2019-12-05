@@ -48,90 +48,195 @@
     <!-- Main content -->
     <section class="content">
 
-        <!-- SELECT2 EXAMPLE -->
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <div class="col-md-4">Mã nhân viên:</div>
-                <div class="col-md-8">NV01</div>
-                <div class="col-md-4">Tên nhân viên:</div>
-                <div class="col-md-8">Nguyễn Chí Thanh</div>
-                <div class="col-md-4">Phòng ban:</div>
-                <div class="col-md-8">Phòng hành chính nhân sự</div>
-                <div class="col-md-4">Dự án:</div>
-                <div class="col-md-8">Tăng lương nhân viên</div>
-            </div>
-
-        </div>
-        <!-- /.row -->
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Bảng thống kê công việc theo dự án</h3>
-            </div>
-            <div class="box-body">
-                <table id="example1" class="table table-bordered table-striped">
+            <div class="box box-default">
+                    <div class="box-header with-border">
+                
+                
+                      <div class="box-body">
+                        <div class="col-md-4">
+                
+                        </div>
+                        <div class="col-md-8">
+                        <?php 
+                        // $department_count;
+                            $a = file_get_contents('https://pmptn13.herokuapp.com/departments');
+                            
+                            // echo $a;  
+                             
+                            $list_department = json_decode($a);
+                            $department_count=count($list_department);
+                            ?>
+                          
+                       </div>
+                     </div>
+                   </div>
+                   <!-- /.box-header -->
+                   <div class="box-body">
+                     <div class="col-md-3">
+                      <label>Lọc</label>
+                
+                    </div>
+                    <div class="col-md-3">
+                      <select class="form-control">
+                        <?php for ($i =0; $i< count($list_department); $i++){?>
+                          <option value="<?=$list_department[$i]->_id?>"><?php echo ($list_department[$i]->name)?></option>
+                        <?php } ?> 
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <select class="form-control">
+                        <?php for ($i =0; $i< count($list_employee); $i++){?>
+                          <option value="<?=$list_employee[$i]->_id?>"><?php echo ($list_employee[$i]->name)?></option>
+                        <?php } ?> 
+                     </select>
+                   </div>
+                   <div class="col-md-3">
+                  </div>
+                </div>
+                <!-- /.row -->
+                <div class="box">
+                  <div class="box-header">
+                    <h3 class="box-title">Bảng KPI nhân viên </h3>
+                  </div>
+                  <div class="box-body">
+                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
-                        <tr>
-                            <th style="width: 40px">STT</th>
-                            <th style="width: 80px">Mã KPI</th>
-                            <th>Tên tiêu chí</th>
-                            <th style="width: 80px">Kết quả đạt được</th>
-                            <th style="width: 80px">Chỉ tiêu</th>
-                            <th style="width: 80px">Trọng số KPI</th>
-                            <th style="width: 80px">Hiệu xuất KPI (%)</th>
-
-                        </tr>
+                      <tr>
+                        <th>STT</th>
+                        <th>Mã nhân viên</th>
+                        <th>Tên nhân viên</th>
+                        <th>Phòng ban</th>
+                        <th>KPI</th>
+                        <th style="width: 100px"></th>
+                      </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>KPI01</td>
-                            <td>Tính lương</td>
-                            <td>35</td>
-                            <td>55</td>
-                            <td>31</td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>KPI02</td>
-                            <td>Chi trả bảo hiểm</td>
-                            <td>65</td>
-                            <td>55</td>
-                            <td>31</td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>KPI03</td>
-                            <td>Dánh giá năng xuất</td>
-                            <td>6</td>
-                            <td>55</td>
-                            <td>31</td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>KPI04</td>
-                            <td>Giải quyết thủ tục</td>
-                            <td>5</td>
-                            <td>55</td>
-                            <td>31</td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>KPI05</td>
-                            <td>Đánh giá doanh thu</td>
-                            <td>5</td>
-                            <td>55</td>
-                            <td>31</td>
-                            <td>35</td>
-                        </tr>
-                    </tbody>
-
+                      <tr>
+                        <td>1</td>
+                        <th>NV01</th>
+                        <th>NGuyễn Chí Thanh</th>
+                        <td>Phòng hành chính nhân sự</td>
+                        <td>35</td>
+                        <td><a href="chitiet_KPInhanvien.blade.php">Chi tiết</a></td>
+                      </tr>
+                       <tr>
+                       <td>2</td>
+                       <th>NV02</th>
+                        <th>NGuyễn Chí Hưng</th>
+                       <td>Phòng hành chính nhân sự</td>
+                       <td>65</td>
+                       <td><a href="chitiet_KPInhanvien.blade.php">Chi tiết</a></td>
+                     </tr>
+                     <tr>
+                      <td>3</td>
+                      <th>NV01</th>
+                        <th>NGuyễn Chí Kerlo</th>
+                      <td>Phòng hành chính nhân sự</td>
+                      <td>6</td>
+                      <td><a href="chitiet_KPInhanvien.blade.php">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                     <td>4 </td>
+                     <th>NV01</th>
+                        <th>NGuyễn Chí Kỳ</th>
+                     <td>Phòng hành chính nhân sự</td>
+                     <td>5</td>
+                     <td><a href="chitiet_KPInhanvien.blade.php">Chi tiết</a></td>
+                   </tr>
+                   <tr>
+                     <td>4 </td>
+                     <th>NV01</th>
+                        <th>NGuyễn Chí Cường</th>
+                     <td>Phòng hành chính nhân sự</td>
+                     <td>5</td>
+                     <td><a href="chitiet_KPInhanvien.blade.php">Chi tiết</a></td>
+                   </tr>
+                 </tbody>
+                
                 </table>
-            </div>
-        </div>
+                </div>
+                
+                </div>
+                
+                <!-- /.box-body -->
+                
+                </div>
+                <div class="box">
+                  <div class="box-header">
+                      <div class="col-md-4">Mã nhân viên:</div>
+                      <div class="col-md-8">NV01</div>
+                      <div class="col-md-4">Tên nhân viên:</div>
+                      <div class="col-md-8">Nguyễn Chí Thanh</div>
+                      <div class="col-md-4">Phòng ban:</div>
+                      <div class="col-md-8">Phòng hành chính nhân sự</div>
+                      <div class="col-md-4">Dự án:</div>
+                      <div class="col-md-8">Tăng lương nhân viên</div>
+                  </div>
+                  <div class="box-body">
+                      <table id="example1" class="table table-bordered table-striped">
+                          <thead>
+                              <tr>
+                                  <th style="width: 40px">STT</th>
+                                  <th style="width: 80px">Mã KPI</th>
+                                  <th>Tên tiêu chí</th>
+                                  <th style="width: 80px">Kết quả đạt được</th>
+                                  <th style="width: 80px">Chỉ tiêu</th>
+                                  <th style="width: 80px">Trọng số KPI</th>
+                                  <th style="width: 80px">Hiệu xuất KPI (%)</th>
+                
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>1</td>
+                                  <td>KPI01</td>
+                                  <td>Tính lương</td>
+                                  <td>35</td>
+                                  <td>55</td>
+                                  <td>31</td>
+                                  <td>35</td>
+                              </tr>
+                              <tr>
+                                  <td>2</td>
+                                  <td>KPI02</td>
+                                  <td>Chi trả bảo hiểm</td>
+                                  <td>65</td>
+                                  <td>55</td>
+                                  <td>31</td>
+                                  <td>35</td>
+                              </tr>
+                              <tr>
+                                  <td>3</td>
+                                  <td>KPI03</td>
+                                  <td>Dánh giá năng xuất</td>
+                                  <td>6</td>
+                                  <td>55</td>
+                                  <td>31</td>
+                                  <td>35</td>
+                              </tr>
+                              <tr>
+                                  <td>4</td>
+                                  <td>KPI04</td>
+                                  <td>Giải quyết thủ tục</td>
+                                  <td>5</td>
+                                  <td>55</td>
+                                  <td>31</td>
+                                  <td>35</td>
+                              </tr>
+                              <tr>
+                                  <td>5</td>
+                                  <td>KPI05</td>
+                                  <td>Đánh giá doanh thu</td>
+                                  <td>5</td>
+                                  <td>55</td>
+                                  <td>31</td>
+                                  <td>35</td>
+                              </tr>
+                          </tbody>
+                
+                      </table>
+                  </div>
+                </div>
 
     </section>
 

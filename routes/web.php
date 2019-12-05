@@ -21,27 +21,33 @@ Route::get('/cauhinh_KPI', function () {
 Route::get('/chitiet_KPIduan', function () {
     return view('chitiet_KPIduan');
 })->name('chitiet_KPIduan');
-Route::get('/chitiet_KPIduanNV', function () {
-    return view('chitiet_KPIduanNV');
-})->name('chitiet_KPIduanNV');
+
+Route::get('/chitiet_KPIduanNV','KPIManagementsController@listKPIProjects')->name('chitiet_KPIduanNV');
+
 Route::get('/chitiet_KPInhanvien', function () {
     return view('chitiet_KPInhanvien');
 })->name('chitiet_KPInhanvien');
+
 Route::get('/chitiet_KPIphongban', function () {
     return view('chitiet_KPIphongban');
 })->name('chitiet_KPIphongban');
+
 Route::get('/chitiet_quytrinh', function () {
     return view('chitiet_quytrinh');
 })->name('chitiet_quytrinh');
+
 Route::get('/congviec_quytrinh', function () {
     return view('congviec_quytrinh');
 })->name('congviec_quytrinh');
+
 Route::get('/create_project', function () {
     return view('create_project');
 })->name('create_project');
+
 Route::get('/create_notification', function () {
     return view('create_notification');
 })->name('create_notification');
+
 Route::get('/create_task_project', function () {
     return view('create_task_project');
 })->name('create_task_project');
@@ -66,9 +72,7 @@ Route::get('/ds_quytrinh', function () {
     return view('ds_quytrinh');
 })->name('ds_quytrinh');
 
-Route::get('/dsKPI_nhanvien', function () {
-    return view('dsKPI_nhanvien');
-})->name('dsKPI_nhanvien');
+Route::get('/dsKPI_nhanvien', 'KPIManagementsController@listKPIDepartments')->name('dsKPI_nhanvien');
 
 Route::get('/dsKPI_phongban', function () {
     return view('dsKPI_phongban');

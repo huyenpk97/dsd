@@ -35,7 +35,7 @@
 
     <section class="content-header">
         <h1>
-            KPI phòng ban
+            KPI theo dự án
             <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -52,16 +52,32 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="box box-default">
             <div class="box-header with-border">
-                <h3 class="box-title">Phòng hành chính nhân sự</h3>
+                <h3 class="box-title">Lọc</h3>
             </div>
             <div class="box-header with-border">
-                <h3 class="box-title">Dự án tăng lương nhân viên</h3>
+                    <?php 
+                    // $department_count;
+                    $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
+                    // echo $a;  
+                    $response = json_decode($a);
+            
+                    $list_department = $response->departments;
+                    $department_count=count($list_department);
+                    ?>
+                    <div class="col-md-3">
+                      <label>Dự án</label>
+                      <select class="form-control" id="sel_depart">
+                       <?php for ($i =0; $i< count($list_department); $i++){?>
+                        <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
+                      <?php } ?> 
+                    </select>
+                  </div>
             </div>
         </div>
         <!-- /.row -->
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Bảng thống kê công việc thường xuyên</h3>
+                <h3 class="box-title">Bảng thống kê kpi dự án</h3>
             </div>
             <div class="box-body">
                 <table id="example1" class="table table-bordered table-striped">
