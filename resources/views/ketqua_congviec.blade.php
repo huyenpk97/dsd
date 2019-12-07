@@ -11,6 +11,7 @@
 @section('content')
 @php
 $recurrent_task = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
+var_dump(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
 @endphp
 <section class="content-header">
   <h1>
