@@ -49,16 +49,11 @@
       <div class="box box-default">
         <div class="box-header with-border">
           <h3 class="box-title">Danh sách KPI </h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-             
-          </div>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
 
-         <div class="col-md-5">
+         <div class="col-md-8">
 
 
          </div>
@@ -83,20 +78,15 @@
           <?php } ?> 
         </select>
       </div>
-      <div class="col-md-3">
-        <label>Thứ tự</label>
-        <select class="form-control">
-          <option>Tăng dần</option>
-          <option>Giảm dần</option>
-          <option selected="selected"></option>
-
-        </select>
-      </div>
+     
     </div>
+    <div class="box-body ">
+        <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
+      </div>
     <!-- /.row -->
     <div class="box">
       <div class="box-header">
-        <h3 class="box-title">Bảng KPI phòng ban</h3>
+        <h3 class="box-title">Bảng KPI chi tiết của phòng ban</h3>
       </div>
       <div class="box-body">
        <table id="example1" class="table table-bordered table-striped">
@@ -197,6 +187,67 @@
 <!-- Page script -->
 <script>
   $(function () {
+
+    window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
+  var chartData = {
+			labels: ['HC-NS', 'SX', 'KE Toan', 'Sales', 'Stock', 'R&D', 'QoC'],
+			datasets: [{
+				type: 'line',
+				label: 'KPI của công ty',
+				borderColor: window.chartColors.blue,
+				borderWidth: 2,
+				data: [
+				70,
+				70,
+				70,
+				70,
+				70,
+				70,
+				70
+				]
+			}, {
+				type: 'bar',
+				label: 'KPI từng phòng ban',
+				backgroundColor: window.chartColors.red,
+				data: [
+				80,
+				70,
+				69,
+				75,
+				95,
+				45,
+				67
+				],
+				borderColor: 'white',
+				borderWidth: 2
+			}
+  ]
+
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+      ctx.height = 500;
+      console.log(ctx);
+			var mixedChart = new Chart(ctx, {
+				type: 'bar',
+				data: chartData,
+				options: {
+					responsive: true,
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					}
+				}
+			});
+		};
 
     $('#sel_depart').change(function(){
         let id = $('#sel_depart').val()
