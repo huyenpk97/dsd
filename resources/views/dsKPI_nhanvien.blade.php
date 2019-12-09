@@ -48,6 +48,98 @@
 
   <!-- SELECT2 EXAMPLE -->
   <div class="box box-default">
+      <div class="box-body">
+          <canvas id="canvas" height="105"></canvas>
+        </div>
+      <div class="table-responsive col-md-6">  
+        <h3>Xếp hạng những nhân viên có KPI cao </h3>           
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                  <th>Xếp hạng</th>
+                  <th>Tên nhân viên</th>
+                  <th>KPI</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>1</td>
+                      <td>Lã Mạnh Cường</td>
+                      <td>Hành chính nhân sự</td>
+                      <td>90</td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td>Nguyễn Chí Thanh</td>
+                      <td>Bộ phận sản xuất</td>
+                      <td>85</td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td>Nguyễn Duy Kỳ</td>
+                      <td>Bộ phận nghiên cứu và phát triển </td>
+                      <td>80</td>
+                    </tr>
+                    <tr>
+                      <td>4</td>
+                      <td>Trịnh Duy Hưng</td>
+                      <td>Bộ phận đảm bảo chất lươngj</td>
+                      <td>75</td>
+                    </tr>
+                    <tr>
+                      <td>5</td>
+                      <td>Kerlor Senglao</td>
+                      <td>Bộ phận bán hàng</td>
+                      <td>65</td>
+                    </tr>
+              </tbody>
+        </table>
+      </div>
+      <div class="table-responsive col-md-6">  
+          <h3>Xếp hạng những nhân viên có KPI có thấp nhất </h3>           
+          <table class="table table-bordered ">
+              <thead>
+                  <tr>
+                    <th>Xếp hạng</th>
+                    <th>Tên nhân viên</th>
+                    <th>Phòng ban</th>
+                    <th>KPI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Lã Mạnh Cường</td>
+                    <td>Hành chính nhân sự</td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Nguyễn Chí Thanh</td>
+                    <td>Bộ phận sản xuất</td>
+                    <td>20</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Nguyễn Duy Kỳ</td>
+                    <td>Bộ phận nghiên cứu và phát triển </td>
+                    <td>25</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Trịnh Duy Hưng</td>
+                    <td>Bộ phận đảm bảo chất lươngj</td>
+                    <td>35</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Kerlor Senglao</td>
+                    <td>Bộ phận bán hàng</td>
+                    <td>45</td>
+                  </tr>
+                </tbody>
+          </table>
+      </div>
     <div class="box-header with-border">
 
 
@@ -280,6 +372,80 @@
  <script src="{{asset('bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
  <script>
   $(function () {
+    window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
+  var chartData = {
+			labels: ["Office & HR", 'Production', 'Accounting', 'Sales', 'Stock', 'R&D', 'QoC'],
+			datasets: [{
+				type: 'line',
+				label: 'KPI của công ty',
+				borderColor: window.chartColors.blue,
+				borderWidth: 2,
+				data: [
+				70,
+				70,
+				70,
+				70,
+				70,
+				70,
+				70
+				]
+			}, {
+				type: 'bar',
+				label: 'Số lượng nhân viên đạt chỉ tiêu KPI',
+				backgroundColor: window.chartColors.green,
+				data: [
+				80,
+				70,
+				69,
+				75,
+				95,
+				45,
+				67
+				],
+				borderColor: 'white',
+				borderWidth: 2
+			}, {
+				type: 'bar',
+				label: 'Số lượng nhân viên không đạt chỉ tiêu KPI',
+				backgroundColor: window.chartColors.red,
+				data: [
+				20,
+				30,
+				31,
+				25,
+				5,
+				55,
+				33
+				],
+				borderColor: 'white',
+				borderWidth: 2
+			}
+  ]
+
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+      console.log(ctx);
+			var mixedChart = new Chart(ctx, {
+				type: 'bar',
+				data: chartData,
+				options: {
+					responsive: true,
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					}
+				}
+			});
+		};
     $('#example1').DataTable()
     $('#example2').DataTable({
       'paging'      : true,
