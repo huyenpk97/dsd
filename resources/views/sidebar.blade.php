@@ -57,7 +57,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('thongke_KPI')}}"><i class="fa fa-circle-o"></i>Thống kê KPI</a></li>
+                     <li><a href="{{ route('thongke_KPI')}}"><i class="fa fa-circle-o"></i>Thống kê KPI</a></li>
                     <li><a href="{{ route('dsKPI_nhanvien')}}"><i class="fa fa-circle-o"></i>KPI nhân viên</a></li>
                     <li><a href="{{ route('dsKPI_phongban')}}"><i class="fa fa-circle-o"></i>KPI phòng ban</a></li>
                     <li><a href="{{ route('chitiet_KPIduan')}}"><i class="fa fa-circle-o"></i>KPI dự án</a></li>
@@ -77,8 +77,8 @@
                     <li><a href="{{ route('tao_quytrinh')}}"><i class="fa fa-circle-o"></i>Tạo quy trình</a></li>
                     <li><a href="{{ route('congviec_quytrinh')}}"><i class="fa fa-circle-o"></i>Ds công việc theo quy trình</a></li>
                     <li><a href="{{ route('taocongviec_quytrinh')}}"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
-                    <li><a href="{{ route('chitiet_quytrinh')}}"><i class="fa fa-circle-o"></i>Chi tiết quy trình</a></li>
-                    <li><a href="{{ route('detail_task_project')}}"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
+                   
+                    
                 </ul>
             </li>
             <li class="treeview">
@@ -91,7 +91,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ route('list_project')}}"><i class="fa fa-circle-o"></i>Ds dự án</a></li>
                     <li><a href="{{ route('create_project')}}"><i class="fa fa-circle-o"></i>Tạo dự án</a></li>
-                    <li><a href="{{ route('detail_task_project')}}"><i class="fa fa-circle-o"></i>Chi tiết công việc</a></li>
+          
                 </ul>
             </li>
             <li class="treeview">

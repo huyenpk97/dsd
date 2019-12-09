@@ -57,21 +57,25 @@
             <div class="box-header with-border">
                     <?php 
                     // $department_count;
-                    $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
-                    // echo $a;  
-                    $response = json_decode($a);
+                    $a = file_get_contents('http://3.1.20.54/v1/projects');
             
-                    $list_department = $response->departments;
-                    $department_count=count($list_department);
+                    $list_projects = json_decode($a);
+                    $list_projects_count= $list_projects->count;
+                    $list_projects = $list_projects->results;
                     ?>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                       <label>Dự án</label>
                       <select class="form-control" id="sel_depart">
-                       <?php for ($i =0; $i< count($list_department); $i++){?>
-                        <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
+                       <?php for ($i = 0; $i< $list_projects_count; $i++){?>
+                        <option value="<?=$list_projects[$i]->id?>"><?php echo ($list_projects[$i]->name)?></option>
                       <?php } ?> 
                     </select>
                   </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-body ">
+                <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
             </div>
         </div>
         <!-- /.row -->
@@ -203,6 +207,68 @@
     <!-- Page script -->
     <script>
         $(function () {
+
+            
+    window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
+  var chartData = {
+			labels: ['Đạt doanh số', 'Di đúng giờ', 'Sản lượng đạt 2tr sp', 'Số lượng sản phẩm lỗi ít', 'Hài lòng từ khách hàng', 'R&D', 'QoC'],
+			datasets: [{
+				type: 'line',
+				label: 'Tiêu chí KPI của công ty',
+				borderColor: window.chartColors.blue,
+				borderWidth: 2,
+				data: [
+				80,
+				69,
+				70,
+			  75,
+				90,
+				45,
+				78
+				]
+			}, {
+				type: 'bar',
+				label: 'KPI từng tiêu chí dự án',
+				backgroundColor: window.chartColors.red,
+				data: [
+				80,
+				75,
+				69,
+				75,
+				95,
+				10,
+				67
+				],
+				borderColor: 'white',
+				borderWidth: 2
+			}
+  ]
+
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+      ctx.height = 500;
+      console.log(ctx);
+			var mixedChart = new Chart(ctx, {
+				type: 'bar',
+				data: chartData,
+				options: {
+					responsive: true,
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					}
+				}
+			});
+		};
             //Initialize Select2 Elements
             $('.select2').select2()
 

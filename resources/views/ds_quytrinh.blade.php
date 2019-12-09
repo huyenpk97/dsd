@@ -52,7 +52,7 @@
                         <td>Kho</td>
                         <td><?=$list[$i]->created_at ?></td>
                         <td>
-                        <a href="{{ route('chitiet_quytrinh')}}" class="btn btn-primary">Chi tiết</a>
+                        <a href="{{ route('chitiet_quytrinh', $list[$i]->id)}}" class="btn btn-primary">Chi tiết</a>
                         </td>
                     </tr>
                   <?php } ?>
@@ -73,7 +73,11 @@
 @endsection
 
 @push('js')
-
+<script>
+  $(document).ready(function(){
+    $('#example1').DataTable();
+  })
+</script>
 @endpush
 
 

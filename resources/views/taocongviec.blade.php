@@ -44,8 +44,45 @@
 
 <?php 
   $list_department =  json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
-  $list_employee = [] ;  
+  $list_employee = json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments/1'))->department->positions;
+  
+  function callAPI($method, $url, $data){
+    $curl = curl_init();
+ 
+    switch ($method){
+       case "POST":
+          curl_setopt($curl, CURLOPT_POST, 1);
+          if ($data)
+             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+          break;
+       case "PUT":
+          curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+          if ($data)
+             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);			 					
+          break;
+       default:
+          if ($data)
+             $url = sprintf("%s?%s", $url, http_build_query($data));
+    }
+ 
+    // OPTIONS:
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+       'APIKEY: 111111111111111111111',
+       'Content-Type: application/json',
+    ));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+ 
+    // EXECUTE:
+    $result = curl_exec($curl);
+    if(!$result){die("Connection Failure");}
+    curl_close($curl);
+    return $result;
+ }
 
+ $list_labels = callAPI('POST', 'https://falling-frog-38743.pktriot.net/api/labels/search?offset=0', "{}");
+ $list_labels = json_decode($list_labels);
 ?>
    
 <section class="content-header">
@@ -83,11 +120,11 @@
           <textarea class="form-control" required id="description" name="description" rows="5" placeholder="Mô tả ..."></textarea>
         </div>
         <div class="form-group">
-          <label>Phòng ban phụ trách</label>
+          <label>Phòng ban thực hiện</label>
           <select class="form-control select2" required id="department" name="department" style="width: 100%;">
             <?php 
               for ($i =0; $i < count($list_department); $i++){?>
-              <option value="{ 'id': '<?= $list_department[$i]->id; ?>','name': '<?= $list_department[$i]->department_name; ?>'}"> 
+              <option value='{ "id": "<?= $list_department[$i]->id; ?>","name": "<?= $list_department[$i]->department_name; ?>"}'> 
                 
                 <?php echo ($list_department[$i]->department_name)?></option>
             <?php } ?> 
@@ -96,25 +133,22 @@
         </div>
         <div class="form-group">
           <label>Nhân viên thực hiện</label>
-          <select class="form-control select2" required id="department" name="department" style="width: 100%;">
-            <option selected="selected" value="Phòng hành chính, nhân sự">Phòng hành chính, nhân sự</option>
-            <option value="Phòng maketing">Phòng maketing</option>
-            <option value="Phòng kĩ thuật">Phòng kĩ thuật</option>
-            <option value="Phòng nhân sự">Phòng nhân sự</option>
-            <option value="Phòng tài chính">Phòng tài chính</option>
+          <select class="form-control select2" required id="doer" name="doer" style="width: 100%;">
+            @foreach($list_employee as $employee)
+            <option value='{ "id": "<?= $employee->employee_id; ?>","name": "<?= $employee->name; ?>"}'> 
+            {{ $employee->name }}</option>
+            @endforeach
 
           </select>
         </div>
 
         <div class="form-group">
           <label>Người kiểm tra</label>
-          <select class="form-control select2" id="department" style="width: 100%;">
-            <option selected="selected" value="Phòng hành chính, nhân sự">Phòng hành chính, nhân sự</option>
-            <option value="Phòng maketing">Phòng maketing</option>
-            <option value="Phòng kĩ thuật">Phòng kĩ thuật</option>
-            <option value="Phòng nhân sự">Phòng nhân sự</option>
-            <option value="Phòng tài chính">Phòng tài chính</option>
-
+          <select class="form-control select2" id="reviewer" style="width: 100%;">
+            @foreach($list_employee as $employee)
+              <option value='{ "id": "<?= $employee->employee_id; ?>","name": "<?= $employee->name; ?>"}'> 
+              {{ $employee->name }}</option>
+            @endforeach
           </select>
         </div>
         <!-- /.form-group -->
@@ -133,12 +167,10 @@
           <label>Deadline:</label>
 
           <div class="input-group date">
-            <div>
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" required class="form-control pull-right" data-parsley-type="text" name="deadline" id="deadline">
-            </div>
+              <input type="text" required class="form-control pull-right" data-parsley-type="text" name="deadline" id="deadline">
           </div>
           <!-- /.input group -->
         </div>
@@ -148,12 +180,24 @@
           <select class="form-control select2" multiple="multiple"  id="departments_related" name="departments_related" data-placeholder="Chọn các phòng ban"
           style="width: 100%;">
           <?php for ($i =0; $i< count($list_department); $i++){?>
-              <option value="{ 'id': '<?= $list_department[$i]->id; ?>','name': '<?= $list_department[$i]->department_name; ?>'}">
+              <option value='{ "id": "<?= $list_department[$i]->id; ?>","name": "<?= $list_department[$i]->department_name; ?>"}'>
                 <?php echo ($list_department[$i]->department_name)?>
               </option>
             <?php } ?> 
         </select>
       </div>
+      <div class="form-group">
+          <label>Nhãn công việc</label>
+          <select class="form-control select2" required id="type_task" name="type_task" style="width: 100%;">
+          <?php 
+              for ($i =0; $i < count($list_labels); $i++){?>
+              <option value='{ "id": "<?= $list_labels[$i]->_id; ?>","name": "<?= $list_labels[$i]->name; ?>"}'> 
+                
+                <?php echo ($list_labels[$i]->name)?></option>
+            <?php } ?> 
+
+          </select>
+        </div>
       <div class="form-group">
         <!-- /.col -->
         <button type="submit" class="btn btn-block btn-success btn-create">Tạo công việc</button>
@@ -221,9 +265,8 @@
             }
         }
     });
-    $('.create_task_form').on('submit', function(e){
+    $('#create_task_form').on('submit', function(e){
       e.preventDefault();
-      alert('ahihi')
           name_task = $('#name_task').val();
           department =  $('#department').val();
           description =  $('#description').val();
@@ -234,31 +277,71 @@
           deadline = new Date(deadline);
           deadline = deadline.toISOString();
           coDepartments =  $('#departments_related').val();
+          doer =  $('#doer').val();
+          reviewer = $('#reviewer').val();
+
+          var formData = new FormData();
+          formData.append('name', name_task);
+          formData.append('department', department);
+          formData.append('description', description);
+          formData.append('start', start_date);
+          formData.append('finish', deadline);
+          formData.append('coDepartments', coDepartments);
+          formData.append('doer', doer);
+          formData.append('reviewer', reviewer);
+          formData.append('creator', reviewer);
+          formData.append("type", "individual");
+          formData.append("status","doing");
 
           $.ajax({
                 url : "https://falling-frog-38743.pktriot.net/api/recurrent-tasks/", 
                 type : "post",
                 data : {
-                  name : name_task,
-                  department : department,
-                  coDepartments : coDepartments,
-                  creator : {"id": "73936b96-03c1-4544-a858-a39deb469576",
-                              "name": "Huy Ta Quoc"},
-                  reviewer: {
-                    "id": "73936b96-03c1-4544-a858-a39deb469576",
-                    "name": "Huy Ta Quoc"
-                  },
-                  doer: {
-                    "id": "73936b96-03c1-4544-a858-a39deb469576",
-                    "name": "Huy Ta Quoc"
-                  },
-                  description : description,
-                  start : start_date,
-                  finish : deadline,
-                  departments_related : departments_related,
-                  "type": "individual",
-                  "status": "doing"
-                },
+  "name": "Checking drugs' quality every day",
+  "description": "Every day, employees need to make sure the quality of all drug products are good.",
+  "doer": {
+    "id": "73936b96-03c1-4544-a858-a39deb469576",
+    "name": "Huy Ta Quoc",
+    "email": "quochuy.tl.bk@gmail.com"
+  },
+  "coDoers": [
+    {
+      "id": "73936b96-03c1-4544-a858-a39deb469576",
+      "name": "Huy Ta Quoc",
+      "email": "quochuy.tl.bk@gmail.com"
+    }
+  ],
+  "reviewer": {
+    "id": "73936b96-03c1-4544-a858-a39deb469576",
+    "name": "Huy Ta Quoc",
+    "email": "quochuy.tl.bk@gmail.com"
+  },
+  "creator": {
+    "id": "73936b96-03c1-4544-a858-a39deb469576",
+    "name": "Huy Ta Quoc",
+    "email": "quochuy.tl.bk@gmail.com"
+  },
+  "department": {
+    "id": "23936b96-02d4-3322-b848-a39deb469543",
+    "name": "Personnel Deparment"
+  },
+  "coDepartments": [
+    {
+      "id": "23936b96-02d4-3322-b848-a39deb469543",
+      "name": "Personnel Deparment"
+    }
+  ],
+  "labels": [
+    "507f1f77bcf86cd799439011"
+  ],
+  "start": "2019-12-11T15:27:13.347Z",
+  "finish": "2019-12-11T15:27:13.347Z",
+  "due": "2019-12-11T15:27:13.347Z",
+  "comment": "This task is gonna need twice the time of an ordinary task.",
+  "percentComplete": 50,
+  "type": "individual",
+  "status": "doing"
+},
                 success : function (result){ // result là kết quả trả về khi gọi đến API
                   Swal.fire({
                     position: 'center',

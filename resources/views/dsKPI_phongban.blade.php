@@ -52,15 +52,8 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-
-         <div class="col-md-8">
-
-
-         </div>
-         <div class="col-md-1">
-          <label>Sắp xếp theo</label>
-
-        </div>
+         <div class="col-md-6"></div>
+         <div class="col-md-1"><label>Lọc</label></div>
         <?php 
         // $department_count;
         $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
@@ -70,7 +63,7 @@
         $list_department = $response->departments;
         $department_count=count($list_department);
         ?>
-        <div class="col-md-3">
+        <div class="col-md-5 form-inline">
           <label>Phòng ban</label>
           <select class="form-control" id="sel_depart">
            <?php for ($i =0; $i< count($list_department); $i++){?>
@@ -198,20 +191,20 @@
     grey: 'rgb(201, 203, 207)'
   };
   var chartData = {
-			labels: ['HC-NS', 'SX', 'KE Toan', 'Sales', 'Stock', 'R&D', 'QoC'],
+			labels: ['Đạt doanh số', 'Di đúng giờ', 'Sản lượng đạt 2tr sp', 'Số lượng sản phẩm lỗi ít', 'Hài lòng từ khách hàng', 'R&D', 'QoC'],
 			datasets: [{
 				type: 'line',
-				label: 'KPI của công ty',
+				label: 'Tiêu chí KPI của công ty',
 				borderColor: window.chartColors.blue,
 				borderWidth: 2,
 				data: [
+				80,
+				69,
 				70,
-				70,
-				70,
-				70,
-				70,
-				70,
-				70
+			  75,
+				90,
+				45,
+				78
 				]
 			}, {
 				type: 'bar',
@@ -219,11 +212,11 @@
 				backgroundColor: window.chartColors.red,
 				data: [
 				80,
-				70,
+				75,
 				69,
 				75,
 				95,
-				45,
+				10,
 				67
 				],
 				borderColor: 'white',
