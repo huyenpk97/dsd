@@ -12,7 +12,7 @@
    <!-- SELECT2 EXAMPLE -->
    <div class="box box-default">
     <div class="box-header with-border">
-      <h3 class="box-title" style="margin: 20px 0;">Xếp hạng KPI theo nhân viên</h3>
+      <h3 class="box-title" style="margin: 20px 0;">Thống kê KPI của các phòng ban</h3>
       <form action="" method="POST" role="form" class="form-inline">
           <div class="form-group">
               <label>Tiêu chí</label>

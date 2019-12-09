@@ -133,12 +133,10 @@
           <label>Deadline:</label>
 
           <div class="input-group date">
-            <div>
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-            <input type="text" required class="form-control pull-right" data-parsley-type="text" name="deadline" id="deadline">
-            </div>
+              <input type="text" required class="form-control pull-right" data-parsley-type="text" name="deadline" id="deadline">
           </div>
           <!-- /.input group -->
         </div>
