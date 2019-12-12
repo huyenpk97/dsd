@@ -28,11 +28,26 @@
 @endpush
 @section('content')
 <?php 
+   $result = file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/');
+   $list_recurrent_task = json_decode($result);
+   $numberTasks = count($list_recurrent_task);
+
+  
+  $searchStatusDoing = array(
+    "status" => ["doing"]
+  );
+
+  $searchStatusOverdue = array(
+    "status" => ["overdue"]
+  );
+
+  $searchStatusFinished = array(
+    "status" => ["finished"]
+  );
 
   $id = 13;
 
   $statistics = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $id));
-  $list_recurrent_task =  $statistics->all->tasks;
   $numberTasks =  $statistics->all->count;
   $numberTasksDoing = $statistics->doing->count;
   $numberTasksFinished = $statistics->finished->count;
@@ -72,6 +87,7 @@
                 </div>
                 <div class="box-body">
                   <div id="donut-chart" style="height: 300px;"></div>
+                  
                 </div>
                 <!-- /.box-body-->
               </div>

@@ -1,6 +1,6 @@
 @extends('layout')
 @section('title')
-    Danh sách project
+    Thống kê KPI công ty
 @endsection
 @push('header')
     {{-- <link rel="stylesheet" href="{{ asset('css/format_managements/index.css') }}"> --}}
@@ -43,11 +43,10 @@
           <div class="form-group">
               <label>Quý</label>
               <select class="form-control">
-                <option>Tuần 1</option>
-                <option>Tuần 2</option>
-                <option>Tuần 3</option>
-                <option>Tuần 4</option>
-                <option>Tuần 5</option>
+                <option>Quý 1</option>
+                <option>Quý 2</option>
+                <option>Quý 3</option>
+                <option>Quý 4</option>
                 </select>
           </div>
           <div class="form-group">
@@ -189,7 +188,34 @@
 <!-- Sparkline -->
 <script src="{{asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
 <!-- ChartJS -->
+
+
+<?php 
+  $kpi_depart_1 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=1'))->data->kpiValue;
+  $kpi_depart_2 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=2'))->data->kpiValue;
+  $kpi_depart_3 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=3'))->data->kpiValue;
+  $kpi_depart_4 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=4'))->data->kpiValue;
+  $kpi_depart_5 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=5'))->data->kpiValue;
+  $kpi_depart_6 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=6'))->data->kpiValue;
+  $kpi_depart_7 =  json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=7'))->data->kpiValue;
+  
+  $list_department = (array) json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
+  $list_name_depart = '';
+  $kpi_depart = '';
+  foreach($list_department as $department){
+   $list_name_depart .= " '" .$department->department_name . "', ";
+    $kpi_depart .=  " " . json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=' . $department->id))->data->kpiValue . ",";
+    
+  }
+
+
+  rtrim($list_name_depart, ", ");
+  rtrim($kpi_depart, ", ");
+
+
+?>
 <script>
+
  $(function () {
 
   window.chartColors = {
@@ -202,33 +228,32 @@
     grey: 'rgb(201, 203, 207)'
   };
   var chartData = {
-			labels: ["Office & HR", 'Production', 'Accounting', 'Sales', 'Stock', 'R&D', 'QoC'],
+			labels: [<?php echo $list_name_depart; ?>],
 			datasets: [{
 				type: 'line',
 				label: 'KPI của công ty',
 				borderColor: window.chartColors.blue,
 				borderWidth: 2,
 				data: [
-				70,
-				70,
-				70,
-				70,
-				70,
-				70,
-				70
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+        0.70,
+        0.70,
+        0.70,
+        0.70,
+        0.70
 				]
 			}, {
 				type: 'bar',
 				label: 'KPI từng phòng ban',
 				backgroundColor: window.chartColors.red,
 				data: [
-				80,
-				70,
-				69,
-				75,
-				95,
-				45,
-				67
+				<?= $kpi_depart ?>,
 				],
 				borderColor: 'white',
 				borderWidth: 2

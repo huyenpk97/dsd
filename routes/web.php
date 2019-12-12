@@ -53,9 +53,9 @@ Route::get('/ds_baocao', function () {
     return view('ds_baocao');
 })->name('ds_baocao');
 
-Route::get('/ds_congviec_thuong_xuyen', function () {
-    return view('ds_congviec_thuong_xuyen');
-})->name('ds_congviec_thuong_xuyen');
+Route::get('/ds_congviec_thuong_xuyen', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
+
+Route::get('/ds_congviec_thuong_xuyen_cty', 'RecurrentsTask@ds_congviec_thuong_xuyen_cty')->name('ds_congviec_thuong_xuyen_cty');
 
 Route::get('/ds_quytrinh', function () {
     return view('ds_quytrinh');
@@ -68,11 +68,9 @@ Route::get('/dsKPI_nhanvien', function () {
     return view('dsKPI_nhanvien');
 })->name('dsKPI_nhanvien');
 
-Route::get('/dsKPI_nhanvien', 'KPIManagementsController@listKPIDepartments')->name('dsKPI_nhanvien');
+Route::get('/dsKPI_nhanvien', 'KPIManagementsController@listKPIEmployees')->name('dsKPI_nhanvien');
 
-Route::get('/dsKPI_phongban', function () {
-    return view('dsKPI_phongban');
-})->name('dsKPI_phongban');
+Route::get('/dsKPI_phongban', 'KPIManagementsController@listKPIDepartments')->name('dsKPI_phongban');
 
 
 Route::get('/ketqua_congviec', function () {
