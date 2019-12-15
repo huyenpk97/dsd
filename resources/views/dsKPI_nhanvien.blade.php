@@ -383,21 +383,7 @@
   };
   var chartData = {
 			labels: ["Office & HR", 'Production', 'Accounting', 'Sales', 'Stock', 'R&D', 'QoC'],
-			datasets: [{
-				type: 'line',
-				label: 'KPI của công ty',
-				borderColor: window.chartColors.blue,
-				borderWidth: 2,
-				data: [
-				70,
-				70,
-				70,
-				70,
-				70,
-				70,
-				70
-				]
-			}, {
+			datasets: [ {
 				type: 'bar',
 				label: 'Số lượng nhân viên đạt chỉ tiêu KPI',
 				backgroundColor: window.chartColors.green,

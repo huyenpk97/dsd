@@ -31,7 +31,6 @@
     if (strpos($result, "error")) { $msg = "INvalid password or username"; }
     else{
         $msg = "Đúng";
-        session()->put('auth','my_value');
          // return view('list_project');
          $link = route('list_project');
 

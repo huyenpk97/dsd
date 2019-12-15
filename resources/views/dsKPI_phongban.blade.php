@@ -48,38 +48,54 @@
       <!-- SELECT2 EXAMPLE -->
       <div class="box box-default">
         <div class="box-header with-border">
-          <h3 class="box-title">Danh sách KPI </h3>
+          <h3 class="box-title">KPI phòng ban</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-         <div class="col-md-6"></div>
-         <div class="col-md-1"><label>Lọc</label></div>
+         <div class="col-md-8"></div>
         <?php 
         // $department_count;
-        $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
-        // echo $a;  
-        $response = json_decode($a);
-
-        $list_department = $response->departments;
+        
         $department_count=count($list_department);
         ?>
-        <div class="col-md-5 form-inline">
-          <label>Phòng ban</label>
-          <select class="form-control" id="sel_depart">
-           <?php for ($i =0; $i< count($list_department); $i++){?>
-            <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
-          <?php } ?> 
-        </select>
+        <div class="col-md-4 form-inline">
+        
+        <form action="{{ route('dsKPI_phongban')}}" method="GET" class="form-inline">
+      
+          <div class="form-group">
+              <label>Phòng ban</label>
+              <select class="form-control" id="sel_depart" name="sel_depart">
+              <?php for ($i =0; $i< count($list_department); $i++){?>
+                <option value="<?=$list_department[$i]->id?>" <?php echo  isset($_GET['sel_depart']) ? ($_GET['sel_depart'] == $list_department[$i]->id ? 'selected' : '') : '';?> ><?php echo ($list_department[$i]->department_name)?></option>
+              <?php } ?> 
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Lọc</button>
+        </form>
+      </div>
+      </div>
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Thống kê KPI theo các tiêu chí {{ $department['department_name']}}</h3>
+        </div>
+        <div class="box-body ">
+            <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Thống kê KPI theo các tháng {{ $department['department_name']}}</h3>
+        </div>
+        <div class="box-body ">
+          <canvas id="kpi_depart_months" width="100" height="25" style="height: 500 !important;"></canvas>
+        </div>
       </div>
      
-    </div>
-    <div class="box-body ">
-        <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
-      </div>
     <!-- /.row -->
     <div class="box">
       <div class="box-header">
-        <h3 class="box-title">Bảng KPI chi tiết của phòng ban</h3>
+        <h3 class="box-title">Bảng KPI chi tiết của phòng ban {{ $department['department_name']}}</h3>
       </div>
       <div class="box-body">
        <table id="example1" class="table table-bordered table-striped">
@@ -178,6 +194,11 @@
   })
 </script>
 <!-- Page script -->
+
+<?php 
+ 
+
+?>
 <script>
   $(function () {
 
@@ -227,11 +248,24 @@
 		};
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
+      var ctx_kpi_depart_months = document.getElementById('kpi_depart_months').getContext('2d');
       ctx.height = 500;
       console.log(ctx);
 			var mixedChart = new Chart(ctx, {
 				type: 'bar',
 				data: chartData,
+				options: {
+					responsive: true,
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					}
+				}
+			});
+
+      var mixedChart = new Chart(ctx_kpi_depart_months, {
+				type: 'bar',
+				data: data_kpi_depart_months,
 				options: {
 					responsive: true,
 					tooltips: {
