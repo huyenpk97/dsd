@@ -58,7 +58,7 @@ Route::get('/ds_baocao', function () {
     return view('ds_baocao');
 })->name('ds_baocao');
 
-Route::get('/ds_congviec_thuong_xuyen', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
+Route::get('/ds_congviec_thuong_xuyen/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
 
 Route::get('/ds_congviec_thuong_xuyen_cty', 'RecurrentsTask@ds_congviec_thuong_xuyen_cty')->name('ds_congviec_thuong_xuyen_cty');
 

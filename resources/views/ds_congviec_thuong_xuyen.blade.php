@@ -29,15 +29,12 @@
 @section('content')
 <?php 
 
-  $id = 13;
-
   $statistics = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $id));
   $list_recurrent_task =  $statistics->all->tasks;
-  $numberTasks =  $statistics->all->count;
+  $numberTasks =  $statistics->all->count != 0 ? $statistics->all->count : 1;
   $numberTasksDoing = $statistics->doing->count;
   $numberTasksFinished = $statistics->finished->count;
   $numberTasksOverdue = $statistics->overdue->count;
-  dd();
 
 ?>
      <!-- Content Header (Page header) -->

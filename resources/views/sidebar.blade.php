@@ -45,7 +45,7 @@
           </span>
                 </a>
                 <ul class="treeview-menu">
-                <li><a href="{{ route('ds_congviec_thuong_xuyen') }}"><i class="fa fa-circle-o"></i>Ds công việc thường xuyên</a></li>
+                <li><a href="{{ route('ds_congviec_thuong_xuyen_cty') }}"><i class="fa fa-circle-o"></i>Ds công việc thường xuyên</a></li>
                 <li><a href="{{ route('taocongviec')}}"><i class="fa fa-circle-o"></i>Tạo công việc</a></li>
                 </ul>
             </li>
