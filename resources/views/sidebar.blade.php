@@ -60,7 +60,7 @@
                      <li><a href="{{ route('thongke_KPI')}}"><i class="fa fa-circle-o"></i>Thống kê KPI</a></li>
                     <li><a href="{{ route('dsKPI_nhanvien')}}"><i class="fa fa-circle-o"></i>KPI nhân viên</a></li>
                     <li><a href="{{ route('dsKPI_phongban')}}"><i class="fa fa-circle-o"></i>KPI phòng ban</a></li>
-                    <li><a href="{{ route('chitiet_KPIduan')}}"><i class="fa fa-circle-o"></i>KPI dự án</a></li>
+                    <li><a href="{{ route('dsKPI_du_an')}}"><i class="fa fa-circle-o"></i>KPI dự án</a></li>
                     <li><a href="{{ route('chitiet_KPIduanNV')}}"><i class="fa fa-circle-o"></i>Chi tiết KPI nhân viên trong dự án</a></li>
                     <li><a href="{{ route('cauhinh_KPI')}}"><i class="fa fa-circle-o"></i>Cấu hình KPI</a></li>
                 </ul>

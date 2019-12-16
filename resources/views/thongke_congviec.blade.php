@@ -46,6 +46,7 @@ Danh sách project
   <?php 
   // công việc thường xuyên
   $result = file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/');
+  dd($result);
   $list_recurrent_task = json_decode($result);
   $numberTasks = count($list_recurrent_task);
 

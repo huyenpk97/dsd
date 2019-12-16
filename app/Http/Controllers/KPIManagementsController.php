@@ -22,7 +22,15 @@ class KPIManagementsController extends Controller
     {
         $list_employee = json_decode(file_get_contents('https://pmptn13.herokuapp.com/users'));
 
-        return view('chitiet_KPIduanNV', compact('list_employee'));
+        return view('dsKPI_du_an', compact('list_employee'));
+    }
+
+    
+    public function detailKPIProject($id)
+    {
+        $list_employee = json_decode(file_get_contents('https://pmptn13.herokuapp.com/users'));
+
+        return view('chitiet_KPIduan', compact('list_employee'));
     }
 
     public function listKPIDepartments(Request $request)

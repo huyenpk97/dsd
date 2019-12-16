@@ -28,7 +28,7 @@
 @endpush
 @section('content')
 <?php 
-  $list_department = (array) json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
+  $list_department = (array) json_decode(@file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
   $numberTasksFinished = '';
   $numberTasksDoing = '';
   $numberTasksOverdue = '';
@@ -39,7 +39,7 @@
   $numberTasksAll_arr =  array();
   foreach($list_department as $department){
     $list_name_depart .= " '" .$department->department_name . "', ";
-    $statistics = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $department->id));
+    $statistics = json_decode(@file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $department->id));
     $numberTasksDoing .=  '' . $statistics->doing->count . ',';
     $numberTasksFinished .= '' . $statistics->finished->count . ',';
     $numberTasksOverdue .= '' . $statistics->overdue->count . ',';

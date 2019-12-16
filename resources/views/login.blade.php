@@ -33,6 +33,7 @@
         $msg = "Đúng";
          // return view('list_project');
          $link = route('list_project');
+         dd($result);
 
         dd(header('Location: ' . route('list_project')));
         // Route::get('list_project');

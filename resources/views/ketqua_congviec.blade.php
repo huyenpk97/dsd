@@ -10,8 +10,7 @@
 @endpush
 @section('content')
 @php
-$recurrent_task = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
-var_dump(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
+
 @endphp
 <section class="content-header">
   <h1>
@@ -51,7 +50,7 @@ var_dump(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent
               echo $coDepartmentString;
             ?></div>
             @endif
-          <div class="col-md-4">Nhân viên thực hiện:</div><div class="col-md-8"> {{ $recurrent_task->doer->name }}</div>
+          <div class="col-md-4">Nhân viên thực hiện:</div><div class="col-md-8"> {{ $recurrent_task->doer->name ?? 'La manh Cuong' }}</div>
           <div class="col-md-4">Trạng thái công việc:</div><div class="col-md-8">{{ $recurrent_task->percentComplete}}%</div>
           <div class="col-md-4">Trạng thái: </div><div class="col-md-8">{{ $recurrent_task->status}}</div>
             <!-- /.box -->
