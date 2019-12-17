@@ -35,7 +35,7 @@
 
     <section class="content-header">
         <h1>
-            KPI theo dự án
+            KPI theo dự án {{ $list_kpi_project->name ?? ''}}
             <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -73,7 +73,8 @@
         </div>
         <!-- /.row -->
         <div class="box">
-            <form action="" method="post">
+            <form action="{{ route('update_criteria', $list_kpi_project->id_project)}}" method="post">
+            @csrf
                 <div class="box-header">
                     <h3 class="box-title">Bảng thống kê kpi dự án</h3>
                     <button class="btn btn-primary" style="float: right;">Cập nhật</button>
@@ -83,7 +84,6 @@
                         <thead>
                         <tr>
                             <th style="width: 40px">STT</th>
-                            <th style="width: 80px">Mã KPI</th>
                             <th>Tên tiêu chí</th>
                             <th style="width: 80px">Chỉ tiêu</th>
                             <th style="width: 80px">Kết quả đạt được</th>
@@ -91,47 +91,60 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>KPI01</td>
-                            <td>Tiến độ dự án</td>
-                            <td>55</td>
-                        <td style="font-weight: bold"><input type="number" class="form-control" name="" id="" disabled value="31"></td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>KPI02</td>
-                            <td>Chất lượng dự án</td>
-                            <td>55</td>
-                        <td style="font-weight: bold"><input type="number" class="form-control" name="" id="" disabled value="31"></td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>KPI03</td>
-                            <td>Yếu tố kỹ thuật</td>
-                            <td>55</td>
-                        <td style="font-weight: bold"><input type="number" class="form-control" name="" id="" disabled value="31"></td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>KPI04</td>
-                            <td>Quy mô mức độ dự án</td>
-                            <td>55</td>
-                            <td style="font-weight: bold"><input type="number" class="form-control" name="" id="" disabled value="31"></td>
-                            <td>35</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>KPI05</td>
-                            <td>Đánh giá doanh thu</td>
-                            <td>55</td> 
-                        <td style="font-weight: bold" class="form-inline"><input type="number" class="form-control" name="" id=""  value="31"></td>
-                            <td>35</td>
-                        </tr>
+                            <?php $index = 1;
+                                $list_name_kpi = '';
+                                $list_kpi_standard = '';
+                                $list_kpi_reality = '';
+                            ?>
+                            @foreach($list_kpi_project->reality as $kpi_project)
+                                <?php 
+                                $list_name_kpi .= '"' . $kpi_project->name . '",';
+                                $list_kpi_reality .= '' . $kpi_project->data  . ',' ;
+                                $list_kpi_standard .= '' .  $kpi_standard[$index - 1] . ',';
+                                ?>
+                                <tr>
+                                    <td>{{ $index++}}</td>
+                                    <td>{{ $kpi_project->name }}
+                                        <input type="hidden" name="name_kpi_project[]" value="{{ $kpi_project->name }}">
+                                    </td>
+                                    <td style="color: blue; font-weight: bold;">{{ $kpi_standard[$index - 2] }}</td>
+                                   <?php  if(in_array($kpi_project->name, $default_criteria)){ ?>
+                                    <td style="font-weight: bold"><input type="number" min="0" max="{{$kpi_standard[$index - 2]}}" step="0.01" class="form-control" name="kpi_project[]" id="" readonly  value="{{ $kpi_project->data }}"></td>
+                                   <?php  }else{ ?>
+                                    <td style="font-weight: bold"><input type="number" min="0" max="{{ $kpi_standard[$index - 2] }}" step="0.01" class="form-control" name="kpi_project[]" id=""  value="{{ $kpi_project->data }}"></td>
+                                   <?php }?>
+                                    
+                                    <td><input type="hidden" name="ratios[]" value="{{ $kpi_project->ratio }}">{{ $kpi_project->ratio }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th style="width: 40px"></th>
+                                <th style="text-align: right;">KPI toàn dự án</th>
+                                <th style="width: 80px">{{ $list_kpi_project->kpi_standard }}</th>
+                                <th style="width: 80px"> {{ $list_kpi_project->kpi }}</th>
+                            </tr>
+                            @if(isset($newKPI))
+                                <tr>
+                                    <th style="width: 40px"></th>
+                                    <th style="text-align: right;"></th>
+                                    <th style="width: 80px"></th>
+                                    <th colspan="2"> KPI dự án mới cập nhật thành:  {{ $newKPI->newKpiProject }}</th>
+                                </tr>
+                            @endif
+                        </tfoot>
+                        <input type="hidden" name="id_criteria" value="{{ $list_kpi_project->id_criteria }}">
+                        <input type="hidden" name="id_project" value="{{ $list_kpi_project->id_project }}">
+
+                        <?php 
+
+                            rtrim($list_name_kpi, ',') ;
+                            rtrim($list_kpi_reality, ',') ;
+                            rtrim($list_kpi_standard, ',') ;
+
+
+                        ?>
 
                     </table>
                 </div>
@@ -208,34 +221,18 @@
     grey: 'rgb(201, 203, 207)'
   };
   var chartData = {
-			labels: ['Đạt doanh số', 'Di đúng giờ', 'Sản lượng đạt 2tr sp', 'Số lượng sản phẩm lỗi ít', 'Hài lòng từ khách hàng', 'R&D', 'QoC'],
+			labels: [<?php echo $list_name_kpi; ?>],
 			datasets: [{
 				type: 'line',
-				label: 'Tiêu chí KPI của công ty',
+				label: 'KPI Standdard',
 				borderColor: window.chartColors.blue,
 				borderWidth: 2,
-				data: [
-				80,
-				69,
-				70,
-			  75,
-				90,
-				45,
-				78
-				]
+				data: [<?php echo $list_kpi_standard; ?>]
 			}, {
 				type: 'bar',
-				label: 'KPI từng tiêu chí dự án',
+				label: 'KPI đạt được',
 				backgroundColor: window.chartColors.red,
-				data: [
-				80,
-				75,
-				69,
-				75,
-				95,
-				10,
-				67
-				],
+				data: [<?php echo $list_kpi_reality; ?>],
 				borderColor: 'white',
 				borderWidth: 2
 			}
@@ -245,7 +242,6 @@
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
       ctx.height = 500;
-      console.log(ctx);
 			var mixedChart = new Chart(ctx, {
 				type: 'bar',
 				data: chartData,
@@ -254,7 +250,16 @@
 					tooltips: {
 						mode: 'index',
 						intersect: true
-					}
+					},
+                    scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:true,
+                                        min: 0,
+                                        max: 1    
+                                    }
+                                }]
+                            }
 				}
 			});
 		};

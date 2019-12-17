@@ -27,8 +27,12 @@ Route::post('/', )->name('login_post');
 Route::get('/cauhinh_KPI', function () {
     return view('cauhinh_KPI');
 })->name('cauhinh_KPI');
+
 Route::get('/dsKPI_du_an', 'KPIManagementsController@listKPIProjects')->name('dsKPI_du_an');
 Route::get('/chitiet_KPIduan/{id}', 'KPIManagementsController@detailKPIProject')->name('chitiet_KPIduan');
+
+Route::post('/chitiet_KPIduan/{id}', 'KPIManagementsController@updateCriteria')->name('update_criteria');
+
 Route::get('/chitiet_KPIduanNV', function () {
     return view('chitiet_KPIduanNV');
 })->name('chitiet_KPIduanNV');
@@ -79,6 +83,7 @@ Route::get('/dsKPI_nhanvien', function () {
 Route::get('/dsKPI_nhanvien', 'KPIManagementsController@listKPIEmployees')->name('dsKPI_nhanvien');
 
 Route::get('/dsKPI_phongban', 'KPIManagementsController@listKPIDepartments')->name('dsKPI_phongban');
+
 
 Route::get('/ketqua_congviec/{id}', 'RecurrentsTask@show')->name('ketqua_congviec');
 

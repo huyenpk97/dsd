@@ -48,9 +48,81 @@ class KPIManagementsController extends Controller
     
     public function detailKPIProject(Request $request, $id)
     {
-        $list_employee = json_decode(file_get_contents('https://pmptn13.herokuapp.com/users'));
+        $list_kpi_project = null;
+        $isEmpty = true;
+        $default_criteria = ['Tiến độ dự án', 'Chất lượng dự án', 'Quy mô mức độ dự án', 'Yếu tố kĩ thuật'];
+        if (isset($request->year)) {
+            $result = json_decode(@file_get_contents('http://microserviceteam2hust.000webhostapp.com/api/microservice/kpi/projects/'. $request->year .'?token=4614718215946240'));
+            if(!is_null($result)){
+                    $list_kpi_project = $result->data;
+                    $isEmpty = isset($result->data->result) ? true : false;
+            }
+        }elseif(isset($request->max_min)){
+            $result = json_decode(@file_get_contents('http://microserviceteam2hust.000webhostapp.com/api/microservice/project/kpi/' . $request->max_min));
+            if(!is_null($result)){
+                $list_kpi_project = $result->data;
+                $isEmpty = isset($result->data->result) ? true : false;
+            }
+        }else{
+            $result = json_decode(@file_get_contents('http://microserviceteam2hust.000webhostapp.com/api/microservice/kpi/project/' . $id . '?token=4614718215946240'));
+            if(!is_null($result)){
+                $list_kpi_project = $result->data;
+                $isEmpty = isset($result->data->result) ? true : false;
+                $kpi_standard = array_column((array)$list_kpi_project->standard, 'data');
+            }
+        }
 
-        return view('chitiet_KPIduan', compact('id'));
+       
+
+        return view('chitiet_KPIduan', compact('id', 'list_kpi_project', 'kpi_standard', 'default_criteria'));
+    }
+
+    public function updateCriteria(Request $request, $id)
+    {
+        $results = [];
+        $results['id_project'] = $request->id_project;
+        $results['id_criteria'] = (float) $request->id_criteria;
+
+
+        for ($i = 0; $i < count($request->ratios) ; $i++) { 
+            $results['result'][$i]['reality'] = (float) $request->kpi_project[$i];
+            $results['result'][$i]['ratio'] = (float) $request->ratios[$i];
+            $results['result'][$i]['name'] = $request->name_kpi_project[$i];  
+        }
+
+        $data = json_encode($results);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://microserviceteam2hust.000webhostapp.com/api/microservice/kpi/update/project');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        $headers = array();
+        $headers[] = 'Accept: application/json';
+        $headers[] = 'Content-Type: application/json';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
+
+        $resultUpdate = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+        $result = json_decode(@file_get_contents('http://microserviceteam2hust.000webhostapp.com/api/microservice/kpi/project/' . $id . '?token=4614718215946240'));
+        if(!is_null($result)){
+            $list_kpi_project = $result->data;
+            $isEmpty = isset($result->data->result) ? true : false;
+            $kpi_standard = array_column((array)$list_kpi_project->standard, 'data');
+        }
+        
+        $newKPI =  json_decode($resultUpdate);
+      
+        $default_criteria = ['Tiến độ dự án', 'Chất lượng dự án', 'Quy mô mức độ dự án', 'Yếu tố kĩ thuật'];
+
+        return view('chitiet_KPIduan', compact('id', 'list_kpi_project', 'kpi_standard', 'default_criteria', 'newKPI'));
     }
 
     public function listKPIDepartments(Request $request)
