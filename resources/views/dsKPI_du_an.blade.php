@@ -54,38 +54,11 @@
                 <h3 class="box-title">Lọc</h3>
             </div>
             <div class="box-header with-border">
-                <form action="" method="POST" role="form" class="form-inline">
+                <form action="{{ route('dsKPI_du_an')}}" method="GET" role="form" class="form-inline">
                     @csrf
                     <div class="form-group">
-                        <label>Tháng</label>
-                        <select class="form-control">
-                        <option>Tháng 1</option>
-                        <option>Tháng 2</option>
-                        <option>Tháng 3</option>
-                        <option>Tháng 4</option>
-                        <option>Tháng 5</option>
-                        <option>Tháng 6</option>
-                        <option>Tháng 7</option>
-                        <option>Tháng 8</option>
-                        <option>Tháng 9</option>
-                        <option>Tháng 10</option>
-                        <option>Tháng 11</option>
-                        <option>Tháng 12</option>
-          
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Quý</label>
-                        <select class="form-control">
-                          <option>Quý 1</option>
-                          <option>Quý 2</option>
-                          <option>Quý 3</option>
-                          <option>Quý 4</option>
-                          </select>
-                    </div>
-                    <div class="form-group">
                         <label>Năm</label>
-                        <input type="number" class="form-control" min="2000" max="2099" step="1" value="2019" />
+                        <input type="number" class="form-control" name= "year" min="2000" max="2099" step="1" value="2019" />
           
                     </div>
           
@@ -102,6 +75,19 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Bảng thống kê chỉ tiêu kpi dự án</h3>
+                <form action="{{ route('dsKPI_du_an')}}" method="GET" role="form" class="form-inline">
+                    @csrf
+                    <div class="form-group">
+                        <label></label>
+                        <select name="max_min" id="" class="form-control">
+                            <option value="max" <?php echo (old('max_min') == "max" ? "selected" : '' )?>>Dự án có KPI cao nhất</option>
+                            <option value="min"<?php echo( old('max_min') == "min" ? "selected" : '') ?>>Dự án có KPI thấp nhất</option>
+                        </select>
+          
+                    </div>
+          
+                    <button type="submit" class="btn btn-primary">Lọc <i class="fa fa-refresh"></i></button>
+                </form>
             </div>
             <div class="box-body">
                 <table id="example1" class="table table-bordered table-striped">
@@ -109,35 +95,38 @@
                     <tr>
                         <th >STT</th>
                         <th >Tên dự án</th>
-                        <th >Chỉ tiêu</th>
+                        <th >KPI tiêu chuẩn</th>
+                        <th>KPI đạt được</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>KPI01</td>
-                        <td>35</td>
-                        <td><a href="{{ route('chitiet_KPIduan', 1)}}"><button class="btn btn-default">Chi tiết</button></a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>KPI03</td>
-                        <td>35</td>
-                        <td><a href="{{ route('chitiet_KPIduan', 1)}}"><button class="btn btn-default">Chi tiết</button></a></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>KPI04</td>
-                        <td>20</td>
-                        <td><a href="{{ route('chitiet_KPIduan', 1)}}"><button class="btn btn-default">Chi tiết</button></a></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>KPI05</td>
-                        <td>10</td>
-                        <td><a href="{{ route('chitiet_KPIduan', 1)}}"><button class="btn btn-default">Chi tiết</button></a></td>
-                    </tr>
+                    <?php $index = 1;
+                        $percent = '';
+                        $name_projects = '';
+                    ?>
+                    @if(!$isEmpty || !is_null($list_kpi_projects))
+                        @foreach($list_kpi_projects as $kpi_project)
+                        <?php $percent .= '' . floor(($kpi_project->kpi/ $kpi_project->kpi_standard)*100) . ',';
+                            $name_projects .= '"' . $kpi_project->name . '",';
+                        ?>
+                            <tr>
+                                <td>{{ $index++}}</td>
+                                <td>{{ $kpi_project->name }}</td>
+                                <td>{{ $kpi_project->kpi_standard }}</td>
+                                <td>{{ $kpi_project->kpi }}</td>
+                                <td><a href="{{ route('chitiet_KPIduan', $kpi_project->id_project)}}"><button class="btn btn-default">Chi tiết</button></a></td>
+                            </tr>
+                        @endforeach
+                    @endif
+
+                    <?php 
+                        
+                        rtrim($percent, ', ');
+                        rtrim($name_projects ,', ');
+
+
+                    ?>
                     </tbody>
 
                 </table>
@@ -211,23 +200,15 @@
     green: 'rgb(75, 192, 192)',
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
-    grey: 'rgb(201, 203, 207)'
+    grey: 'rgb(201, 203, 207)'  
   };
   var chartData = {
-			labels: [ 'Dự án 1',  'Dự án 2',  'Dự án 3',  'Dự án 4',  'Dự án 5',  'Dự án 6',  'Dự án 7' ],
+			labels: [<?php echo $name_projects ;?>],
 			datasets: [{
 				type: 'bar',
-				label: 'KPI dự án',
+				label: 'Phần trăm hoàn thành KPI dự án',
 				backgroundColor: window.chartColors.green,
-				data: [
-				80,
-				75,
-				69,
-				75,
-				95,
-				10,
-				67
-				],
+				data: [<?php echo $percent; ?>],
 				borderColor: 'white',
 				borderWidth: 2
 			}
@@ -245,6 +226,15 @@
                             tooltips: {
                                 mode: 'index',
                                 intersect: true
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero:true,
+                                        min: 0,
+                                        max: 100    
+                                    }
+                                }]
                             }
                         }
                     });

@@ -55,39 +55,11 @@
                 <h3 class="box-title">Lọc</h3>
             </div>
             <div class="box-header with-border">
-                <form action="" method="POST" role="form" class="form-inline">
+            <form action="{{ route('chitiet_KPIduan', $id)}}" method="GET" role="form" class="form-inline">
                     @csrf
                     <div class="form-group">
-                        <label>Tháng</label>
-                        <select class="form-control">
-                        <option>Tháng 1</option>
-                        <option>Tháng 2</option>
-                        <option>Tháng 3</option>
-                        <option>Tháng 4</option>
-                        <option>Tháng 5</option>
-                        <option>Tháng 6</option>
-                        <option>Tháng 7</option>
-                        <option>Tháng 8</option>
-                        <option>Tháng 9</option>
-                        <option>Tháng 10</option>
-                        <option>Tháng 11</option>
-                        <option>Tháng 12</option>
-          
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Quý</label>
-                        <select class="form-control">
-                          <option>Quý 1</option>
-                          <option>Quý 2</option>
-                          <option>Quý 3</option>
-                          <option>Quý 4</option>
-                          </select>
-                    </div>
-                    <div class="form-group">
                         <label>Năm</label>
-                        <input type="number" class="form-control" min="2000" max="2099" step="1" value="2019" />
-          
+                        <input type="number" class="form-control" name= "year" min="2000" max="2099" step="1" value="2019" />
                     </div>
           
                     <button type="submit" class="btn btn-primary">Lọc <i class="fa fa-refresh"></i></button>

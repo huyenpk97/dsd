@@ -46,6 +46,15 @@
           {{-- Chart JS --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
     @stack('header')
+
+    <script>
+        var token = localStorage.getItem('token');
+
+        if(token === null){
+            window.location.href = '/login';
+        }
+
+    </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -150,7 +159,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Thông tin</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Đăng xuất</a>
+                                    <a href="#" class="btn btn-default btn-flat" id="logout">Đăng xuất</a>
                                 </div>
                             </li>
                         </ul>
@@ -224,9 +233,15 @@
 @stack('js')
 <!-- Page script -->
 <script>
-    $(function () {
-       
-    });
+       $(document).on('click', '#logout', function(){
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
+            if(token === null){
+                window.location.href = '/login';
+            }
+       });
+    
 
     //Date picker
     $('#datepicker').datepicker({

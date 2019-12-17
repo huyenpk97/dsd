@@ -14,6 +14,8 @@
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+
+Route::post('/', 'LoginController@saveToken' )->name('login_save_token');
 Route::group(['middleware' => ['web']], function () {
 
 Route::get('/', function () {
