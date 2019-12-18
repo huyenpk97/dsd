@@ -42,6 +42,7 @@ class KPIManagementsController extends Controller
             }
         }
 
+
         return view('dsKPI_du_an', compact('list_kpi_projects', 'isEmpty'));
     }
 

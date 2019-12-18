@@ -58,19 +58,25 @@
                     @csrf
                     <div class="form-group">
                         <label>Năm</label>
-                        <input type="number" class="form-control" name= "year" min="2000" max="2099" step="1" value="2019" />
+                        <input type="number" class="form-control" name= "year" min="2000" max="2099" step="1" value="{{ $_GET['year'] ?? 2019}}" />
           
                     </div>
           
                     <button type="submit" class="btn btn-primary">Lọc <i class="fa fa-refresh"></i></button>
                 </form>
+
+                @if($isEmpty )
+                    <h3 style="color: red;">{{ $list_kpi_projects->result}}</h3>
+                @endif
             </div>
         </div>
+        @if(!$isEmpty )
         <div class="box">
             <div class="box-body ">
                 <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
             </div>
         </div>
+        @endif
         <!-- /.row -->
         <div class="box">
             <div class="box-header">
@@ -104,8 +110,9 @@
                     <?php $index = 1;
                         $percent = '';
                         $name_projects = '';
+
                     ?>
-                    @if(!$isEmpty || !is_null($list_kpi_projects))
+                    @if(!$isEmpty )
                         @foreach($list_kpi_projects as $kpi_project)
                         <?php $percent .= '' . floor(($kpi_project->kpi/ $kpi_project->kpi_standard)*100) . ',';
                             $name_projects .= '"' . $kpi_project->name . '",';
@@ -118,15 +125,16 @@
                                 <td><a href="{{ route('chitiet_KPIduan', $kpi_project->id_project)}}"><button class="btn btn-default">Chi tiết</button></a></td>
                             </tr>
                         @endforeach
+                        <?php 
+                            
+                            rtrim($percent, ', ');
+                            rtrim($name_projects ,', ');
+
+
+                        ?>
                     @endif
 
-                    <?php 
-                        
-                        rtrim($percent, ', ');
-                        rtrim($name_projects ,', ');
-
-
-                    ?>
+                   
                     </tbody>
 
                 </table>

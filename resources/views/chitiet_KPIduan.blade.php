@@ -50,22 +50,7 @@
     <section class="content">
 
         <!-- SELECT2 EXAMPLE -->
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">Lọc</h3>
-            </div>
-            <div class="box-header with-border">
-            <form action="{{ route('chitiet_KPIduan', $id)}}" method="GET" role="form" class="form-inline">
-                    @csrf
-                    <div class="form-group">
-                        <label>Năm</label>
-                        <input type="number" class="form-control" name= "year" min="2000" max="2099" step="1" value="2019" />
-                    </div>
-          
-                    <button type="submit" class="btn btn-primary">Lọc <i class="fa fa-refresh"></i></button>
-                </form>
-            </div>
-        </div>
+        
         <div class="box">
             <div class="box-body ">
                 <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
@@ -109,11 +94,10 @@
                                     </td>
                                     <td style="color: blue; font-weight: bold;">{{ $kpi_standard[$index - 2] }}</td>
                                    <?php  if(in_array($kpi_project->name, $default_criteria)){ ?>
-                                    <td style="font-weight: bold"><input type="number" min="0" max="{{$kpi_standard[$index - 2]}}" step="0.01" class="form-control" name="kpi_project[]" id="" readonly  value="{{ $kpi_project->data }}"></td>
+                                    <td style="font-weight: bold"><input type="number" min="0" max="1" step="0.01" class="form-control" name="kpi_project[]" id="" readonly  value="{{ $kpi_project->data }}"></td>
                                    <?php  }else{ ?>
-                                    <td style="font-weight: bold"><input type="number" min="0" max="{{ $kpi_standard[$index - 2] }}" step="0.01" class="form-control" name="kpi_project[]" id=""  value="{{ $kpi_project->data }}"></td>
-                                   <?php }?>
-                                    
+                                    <td style="font-weight: bold"><input type="number" min="0" max="1" step="0.01" class="form-control" name="kpi_project[]" id=""  value="{{ $kpi_project->data }}"></td>
+                                   <?php }?>                                 
                                     <td><input type="hidden" name="ratios[]" value="{{ $kpi_project->ratio }}">{{ $kpi_project->ratio }}</td>
                                 </tr>
                             @endforeach

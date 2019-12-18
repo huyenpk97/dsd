@@ -30,6 +30,9 @@
     {{-- <script src="{{ asset('js/format_managements/index.js') }}"></script> --}}
 @endpush
 @section('content')
+<?php 
+  $result =  @file_get_contents('https://dsd10-kong.herokuapp.com/kpi-all-company?startTime=2019-10-01 00:00:00&endTime=2019-12-30 00:00:00');
+?>
 <section class="content-header">
       <h1>
         KPI phòng ban
@@ -52,13 +55,13 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-         <div class="col-md-8"></div>
+         <div class="col-md-6"></div>
         <?php 
         // $department_count;
         
         $department_count=count($list_department);
         ?>
-        <div class="col-md-4 form-inline">
+        <div class="col-md-6 form-inline">
         
         <form action="{{ route('dsKPI_phongban')}}" method="GET" class="form-inline">
       
@@ -91,6 +94,75 @@
           <canvas id="kpi_depart_months" width="100" height="25" style="height: 500 !important;"></canvas>
         </div>
       </div>
+
+      <div class="box box-default">
+    <div class="box-header with-border">
+        Xếp Hạng Phòng Ban và nhân viên có KPI cao nhất
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body row">
+        <div class="table-responsive col-md-6">  
+            <h3>Xếp hạng những nhân viên có KPI cao </h3>           
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                      <th>Xếp hạng</th>
+                      <th>Tên nhân viên</th>
+                      <th>KPI</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                @if($result)
+                  <?php  
+                     $kpi_employees = $result->data;
+                  for ($i=0; $i < 5; $i++) { 
+                  ?>
+                      <tr>
+                        <td>{{ $i + 1}}</td>
+                        <td>{{ $kpi_employees->employee_id}}</td>
+                        <td>Hành chính nhân sự</td>
+                        <td>{{ $kpi_employees->result}}</td>
+                      </tr>
+                      <?php   }?>
+                  @else 
+                    <h3 style="color: blue;"> Dữ liệu chưa sẵn sàng</h3>
+                  @endif
+                  </tbody>
+            </table>
+          </div>
+          <div class="table-responsive col-md-6">  
+              <h3>Xếp hạng những nhân viên có KPI có thấp nhất </h3>           
+              <table class="table table-bordered ">
+                  <thead>
+                      <tr>
+                        <th>Xếp hạng</th>
+                        <th>Tên nhân viên</th>
+                        <th>Phòng ban</th>
+                        <th>KPI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @if($result)
+                      <?php  
+                        $kpi_employees = $result->data;
+                        $index = 1;
+                      for ($i= count($kpi_employees); $i > count($kpi_employees) - 5; $i--) { 
+                      ?>
+                          <tr>
+                            <td>{{ $index}}</td>
+                            <td>{{ $kpi_employees->employee_id}}</td>
+                            <td>Hành chính nhân sự</td>
+                            <td>{{ $kpi_employees->result}}</td>
+                          </tr>
+                          <?php   }?>
+                      @else 
+                        <h3 style="color: blue;"> Dữ liệu chưa sẵn sàng</h3>
+                      @endif
+                    </tbody>
+              </table>
+          </div>
+    </div>
+  </div>
      
     <!-- /.row -->
     <div class="box">
@@ -197,7 +269,6 @@
 
 <?php 
  
-
 ?>
 <script>
   $(function () {
@@ -246,6 +317,33 @@
   ]
 
 		};
+
+    var data_kpi_depart_months = {
+			labels: ['Tháng 1', ' Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+			datasets: [ {
+				type: 'bar',
+				label: 'KPI phòng ban theo tháng',
+				backgroundColor: window.chartColors.green,
+				data: [
+          <?= $KPI_depart_months[1] ?>,
+					<?= $KPI_depart_months[2] ?>,
+					<?= $KPI_depart_months[3] ?>,
+					<?= $KPI_depart_months[4] ?>,
+					<?= $KPI_depart_months[5] ?>,
+					<?= $KPI_depart_months[6] ?>,
+					<?= $KPI_depart_months[7] ?>,
+          <?= $KPI_depart_months[8] ?>,
+					<?= $KPI_depart_months[9] ?>,
+					<?= $KPI_depart_months[10] ?>,
+					<?= $KPI_depart_months[11] ?>,
+					<?= $KPI_depart_months[12] ?>
+				],
+				borderColor: 'white',
+				borderWidth: 2
+			}
+  ]
+
+		};
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
       var ctx_kpi_depart_months = document.getElementById('kpi_depart_months').getContext('2d');
@@ -259,7 +357,16 @@
 					tooltips: {
 						mode: 'index',
 						intersect: true
-					}
+					},
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true,
+                      min: 0,
+                      max: 100    
+                  }
+              }]
+          }
 				}
 			});
 
@@ -271,7 +378,16 @@
 					tooltips: {
 						mode: 'index',
 						intersect: true
-					}
+					},
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true,
+                      min: 0,
+                      max: 1   
+                  }
+              }]
+          }
 				}
 			});
 		};
