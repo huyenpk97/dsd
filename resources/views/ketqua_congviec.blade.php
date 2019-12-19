@@ -110,7 +110,7 @@
     <?php if ($recurrent_task->percentComplete != 100) { ?>
       <div class="row">
         <div class="col-xs-12">
-          <form id="update_task"" action="{{ route('capnhatcongviec', $recurrent_task->_id)}}" method="POST">
+          <form id="update_task" action="{{ route('capnhatcongviec', $recurrent_task->_id)}}" method="POST">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -171,28 +171,28 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- Page script -->
 <script>
- $(function () {
-   $('.btn-comment').on('click', function(e){
-     e.preventDefault();
-     Swal.fire({
-       title: 'Bạn có muốn gửi nhận xét',
-       icon: 'warning',
-       showCancelButton: true,
-       confirmButtonColor: '#3085d6',
-       cancelButtonColor: '#d33',
-       confirmButtonText: 'Send'
-     }).then((result) => {
-       if (result.value) {
-         Swal.fire(
-           'Sended!',
-           'Gửi nhận xét thành côngs!.',
-           'success'
-         )
-         window.location="congviec_quytrinh.html";
-       }
-     })
-   })
- });
+//  $(function () {
+//    $('.btn-comment').on('click', function(e){
+//      e.preventDefault();
+//      Swal.fire({
+//        title: 'Bạn có muốn gửi nhận xét',
+//        icon: 'warning',
+//        showCancelButton: true,
+//        confirmButtonColor: '#3085d6',
+//        cancelButtonColor: '#d33',
+//        confirmButtonText: 'Send'
+//      }).then((result) => {
+//        if (result.value) {
+//          Swal.fire(
+//            'Sended!',
+//            'Gửi nhận xét thành côngs!.',
+//            'success'
+//          )
+//          window.location="congviec_quytrinh.html";
+//        }
+//      })
+//    })
+//  });
  $(function () {
    $('#example1').DataTable()
    $('#example2').DataTable({

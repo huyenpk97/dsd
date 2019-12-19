@@ -184,7 +184,7 @@
                   <th>Trạng thái thực hiện</th>
                   <th>Trạng thái</th>
                   <th>Nhãn công việc</th>
-                  <th>Hành động</th>
+                  <!-- <th>Hành động</th> -->
                 </tr>
                 </thead>
                 <tbody>
@@ -225,7 +225,7 @@
                           }
                           ?>
                         </td>
-                        <td>  
+                        <!-- <td>  
                             <a href="{{ route('ketqua_congviec', $current_task->_id)}}" class="btn btn-primary">Chi tiết</a>
                             <form id="delete_task" action="{{ route('xoacongviec', $current_task->_id)}}" method="POST">
                               @method('DELETE')
@@ -233,12 +233,12 @@
                               <div class="form-group">
                                 <input type="hidden" name="idDepartment" value='<?= $id; ?>'>
                               </div>
-                              <!-- /.box -->
+                              /.box
                               <div>
                                 <button type="submit" class="btn btn-danger">Xóa</button>
                               </div>
                             </form>
-                        </td>
+                        </td> -->
                     </tr>
 
                   @endforeach
