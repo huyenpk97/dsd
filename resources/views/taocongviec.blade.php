@@ -146,7 +146,7 @@
         </div>
         <div class="form-group">
           <label>Phòng ban thực hiện</label>
-          <select class="form-control select2" id="department" name="department" style="width: 100%;">
+          <select class="form-control" id="department" name="department" style="width: 100%;">
             <?php for ($i =0; $i< count($list_department); $i++){ ?>
               <option value='<?= $list_department[$i]->id; ?>,<?= $list_department[$i]->organizationName; ?>'>
                 <?php echo ($list_department[$i]->organizationName)?>

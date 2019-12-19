@@ -118,11 +118,12 @@
                   <th>Số lượng công việc đang thực hiện</th>
                   <th>Số lượng công việc đã hoàn thành</th>
                   <th>Số lượng công việc đã quá hạn</th>
-                  <!-- <th>Hành động</th> -->
+                  <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php $index = 1; 
+                // dd($list_user);
                   for ( $i=0; $i < count($list_user); $i++) { 
                 ?>
                     <tr>
@@ -132,9 +133,9 @@
                         <td><button class="btn btn-warning"><?=  $numberTasksDoingUser_arr[$i] ?></button></td>
                         <td><button class="btn btn-primary"><?=   $numberTasksFinishedUser_arr[$i] ?></button></td>
                         <td><button class="btn btn-danger"><?=   $numberTasksOverdueUser_arr[$i] ?></button></td>
-                        <!-- <td>
-                          <a href="{{ route('ds_congviec_thuong_xuyen_nhan_vien', $list_user[$i]->id)}}" class="btn btn-primary">Chi tiết</a>
-                        </td> -->
+                        <td>
+                          <a href="{{ route('ds_congviec_thuong_xuyen_nhan_vien', $list_user[$i]->userId)}}" class="btn btn-primary">Chi tiết</a>
+                        </td>
                     </tr>
 
                   <?php   

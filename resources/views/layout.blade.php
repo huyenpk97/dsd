@@ -126,7 +126,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Lã Mạnh Cường</span>
+                            <span class="hidden-xs"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -134,7 +134,7 @@
                                 <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Lã Mạnh Cường <br> Trưởng phòng hành chính nhân sự
+                                     <br> Trưởng phòng hành chính nhân sự
                                     <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
