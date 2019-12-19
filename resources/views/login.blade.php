@@ -76,11 +76,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <script>
-    var token = localStorage.getItem('token');
+    // var token = localStorage.getItem('token');
 
-    if(token !== null){
-        window.location.href = '/thongke_KPI';
-    }
+    // if(token !== null){
+    //     window.location.href = '/thongke_KPI';
+    // }
   </script>
 </head>
 
@@ -95,9 +95,10 @@
       <p class="login-box-msg">
       </p>
       <p class="login-box-msg"></p>
-      <form method="GET" action="" id="form-login">
+      <form ction="{{ route('login.login')}}" method="POST" id="form-login">
+      @csrf
         <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="Email" name="email" id="username">
+          <input type="text" class="form-control" placeholder="Email" name="username" id="username">
           <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
@@ -129,28 +130,28 @@
     <!-- iCheck -->
     <script src="plugins/iCheck/icheck.min.js"></script>
     <script>
-      $('document').ready(function() {
-        $('#form-login').on('submit', function(e) {
-          e.preventDefault();
-          var username = $('#username').val();
-          var password = $('#password').val();
-          $.ajax({
-            url: 'https://api-ptpmpt-18.herokuapp.com/api/auth/login',
-            type: 'POST',
-            data: {
-              username: username,
-              password: password,
-            },
-            success: function(response) {
-              if (!response.error) {
-                localStorage.setItem('token', response.token);
-                localStorage.setItem('user', JSON.stringify(response.user));
-                window.location.href = '/thongke_KPI';
-              }
-            }
-          })
-        })
-      })
+      // $('document').ready(function() {
+      //   $('#form-login').on('submit', function(e) {
+      //     e.preventDefault();
+      //     var username = $('#username').val();
+      //     var password = $('#password').val();
+      //     $.ajax({
+      //       url: 'https://api-ptpmpt-18.herokuapp.com/api/auth/login',
+      //       type: 'POST',
+      //       data: {
+      //         username: username,
+      //         password: password,
+      //       },
+      //       success: function(response) {
+      //         if (!response.error) {
+      //           localStorage.setItem('token', response.token);
+      //           localStorage.setItem('user', JSON.stringify(response.user));
+      //           window.location.href = '/thongke_KPI';
+      //         }
+      //       }
+      //     })
+      //   })
+      // })
     </script>
 
 </body>

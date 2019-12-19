@@ -48,11 +48,11 @@
     @stack('header')
 
     <script>
-        var token = localStorage.getItem('token');
+        // var token = localStorage.getItem('token');
 
-        if(token === null){
-            window.location.href = '/login';
-        }
+        // if(token === null){
+        //     window.location.href = '/login';
+        // }
 
     </script>
 </head>

@@ -14,9 +14,22 @@
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+Route::post('/login', 'LoginController@login')->name('login.login');
 
-Route::post('/', 'LoginController@saveToken' )->name('login_save_token');
-Route::group(['middleware' => ['web']], function () {
+Route::get('/ds_congviec_thuong_xuyen/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
+Route::get('/ds_congviec_thuong_xuyen_truong_phong/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen_truong_phong')->name('ds_congviec_thuong_xuyen_truong_phong');
+Route::get('/ds_congviec_thuong_xuyen_truong_phong_chi_tiet/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen_truong_phong_chi_tiet')->name('ds_congviec_thuong_xuyen_truong_phong_chi_tiet');
+Route::get('/ds_congviec_thuong_xuyen_cty', 'RecurrentsTask@ds_congviec_thuong_xuyen_cty')->name('ds_congviec_thuong_xuyen_cty');
+Route::get('/ds_congviec_thuong_xuyen_nhan_vien/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen_nhan_vien')->name('ds_congviec_thuong_xuyen_nhan_vien');
+Route::get('/taocongviec', 'RecurrentsTask@create')->name('taocongviec');
+Route::post('/taocongviec', 'RecurrentsTask@store')->name('taocongviec.store');
+Route::put('/capnhatcongviec/{id}', 'RecurrentsTask@update')->name('capnhatcongviec');
+Route::delete('/xoacongviec/{id}', 'RecurrentsTask@delete')->name('xoacongviec');
+Route::get('/taocongviecnhanvien/{id}', 'RecurrentsTask@employee')->name('taocongviecnhanvien');
+Route::post('/taocongviecnhanvien', 'RecurrentsTask@store')->name('taocongviecnhanvien.store');
+
+// Route::post('/', 'LoginController@saveToken' )->name('login_save_token');
+// Route::group(['middleware' => ['web']], function () {
 
 Route::get('/', function () {
     return view('login');
@@ -65,9 +78,9 @@ Route::get('/ds_baocao', function () {
     return view('ds_baocao');
 })->name('ds_baocao');
 
-Route::get('/ds_congviec_thuong_xuyen/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
+// Route::get('/ds_congviec_thuong_xuyen/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
 
-Route::get('/ds_congviec_thuong_xuyen_cty', 'RecurrentsTask@ds_congviec_thuong_xuyen_cty')->name('ds_congviec_thuong_xuyen_cty');
+// Route::get('/ds_congviec_thuong_xuyen_cty', 'RecurrentsTask@ds_congviec_thuong_xuyen_cty')->name('ds_congviec_thuong_xuyen_cty');
 
 Route::get('/ds_quytrinh', function () {
     return view('ds_quytrinh');
@@ -111,10 +124,10 @@ Route::get('/taocongviec_quytrinh', function () {
     return view('taocongviec_quytrinh');
 })->name('taocongviec_quytrinh');
 
-Route::get('/taocongviec', 'RecurrentsTask@create')->name('taocongviec');
-Route::post('/taocongviec', 'RecurrentsTask@store')->name('taocongviec.store');
-Route::put('/capnhatcongviec/{id}', 'RecurrentsTask@update')->name('capnhatcongviec');
-Route::delete('/xoacongviec/{id}', 'RecurrentsTask@delete')->name('xoacongviec');
+// Route::get('/taocongviec', 'RecurrentsTask@create')->name('taocongviec');
+// Route::post('/taocongviec', 'RecurrentsTask@store')->name('taocongviec.store');
+// Route::put('/capnhatcongviec/{id}', 'RecurrentsTask@update')->name('capnhatcongviec');
+// Route::delete('/xoacongviec/{id}', 'RecurrentsTask@delete')->name('xoacongviec');
 
 Route::get('/thongke_congviec', function () {
     return view('thongke_congviec');
@@ -137,4 +150,4 @@ Route::get('/chitiet_quytrinh/{id}', function ($id) {
     return view('chitiet_quytrinh', compact('id'));
 })->name('chitiet_quytrinh');
 
-});
+// });

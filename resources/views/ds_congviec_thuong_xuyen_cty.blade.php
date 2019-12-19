@@ -29,6 +29,7 @@
 @section('content')
 <?php 
   $list_department = (array) json_decode(@file_get_contents('http://it4883dms3.pagekite.me/api/departments'));
+  // dd($list_department);
   $numberTasksFinished = '';
   $numberTasksDoing = '';
   $numberTasksOverdue = '';
