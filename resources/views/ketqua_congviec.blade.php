@@ -10,8 +10,7 @@
 @endpush
 @section('content')
 @php
-$recurrent_task = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
-var_dump(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/'.$id));
+
 @endphp
 <section class="content-header">
   <h1>
@@ -38,22 +37,68 @@ var_dump(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent
           <div class="box-header with-border">
             <!-- Bar chart -->
 
-          <div class="col-md-4">Phòng</div><div class="col-md-8">{{ $recurrent_task->department->name ?? 'Phòng'}}</div>
-          <div class="col-md-4">Tên công việc:</div><div class="col-md-8">{{ $recurrent_task->name ?? ''}}</div>
-            <div class="col-md-4">Mô tả công việc:</div><div class="col-md-8">{{ $recurrent_task->description ?? ''}}</div>
-            <div class="col-md-4">Ngày bắt đầu:</div><div class="col-md-8">{{ date_format(date_create($recurrent_task->start),"Y/m/d") ?? ''}}</div>
-            <div class="col-md-4">Deadline:</div><div class="col-md-8">{{ date_format(date_create($recurrent_task->due),"Y/m/d") ?? ''}}</div>
-            @if(!empty($record))
-          <div class="col-md-4">Phòng ban cùng thực hiện:</div><div class="col-md-8"><?php
-              $coDepartment = array_column($recurrent_task->codepartment, 'name');
-              $coDepartmentString = implode("|", $coDepartment);
-
-              echo $coDepartmentString;
-            ?></div>
-            @endif
-          <div class="col-md-4">Nhân viên thực hiện:</div><div class="col-md-8"> {{ $recurrent_task->doer->name }}</div>
-          <div class="col-md-4">Trạng thái công việc:</div><div class="col-md-8">{{ $recurrent_task->percentComplete}}%</div>
-          <div class="col-md-4">Trạng thái: </div><div class="col-md-8">{{ $recurrent_task->status}}</div>
+            <div class="col-md-4">Tên công việc:</div>
+            <div class="col-md-8">{{ $recurrent_task->name ?? ''}}</div>
+            <div class="col-md-4">Mô tả công việc:</div>
+            <div class="col-md-8">{{ $recurrent_task->description ?? ''}}</div>
+            <div class="col-md-4">Phòng ban thực hiện</div>
+            <div class="col-md-8">{{ $recurrent_task->department->name ?? ''}}</div>
+            <div class="col-md-4">Phòng ban phối hợp thực hiện</div>
+            <div class="col-md-8">
+              <?php
+                if(count($recurrent_task->coDepartments) !== 0) {
+                  foreach ($recurrent_task->coDepartments as $coDepartment) {
+                    echo ($coDepartment->name . ', ');
+                  }
+                } else {
+                  echo ('Không có');
+                }
+              ?>
+            </div>
+            <div class="col-md-4">Người tạo:</div>
+            <div class="col-md-8"> {{ $recurrent_task->creator->name ?? '' }}</div>
+            <div class="col-md-4">Người nhận xét:</div>
+            <div class="col-md-8"> {{ $recurrent_task->reviewer->name ?? '' }}</div>
+            <div class="col-md-4">Nhãn công việc:</div>
+            <div class="col-md-8">
+              <?php
+                if(count($recurrent_task->labels) !== 0) {
+                  foreach ($recurrent_task->labels as $label) {
+                    echo ($label->name . ', ');
+                  }
+                } else {
+                  echo ('Không có');
+                }
+              ?>
+            </div>
+            <div class="col-md-4">Ngày bắt đầu:</div>
+            <div class="col-md-8">{{ date_format(date_create($recurrent_task->start),"Y/m/d") ?? ''}}</div>
+            <div class="col-md-4">Deadline:</div>
+            <div class="col-md-8">{{ date_format(date_create($recurrent_task->due),"Y/m/d") ?? ''}}</div>
+            <div class="col-md-4">Ngày hoàn thành:</div>
+            <div class="col-md-8">
+              <?php
+                if(isset($recurrent_task->finish)) {
+                  echo(date_format(date_create($recurrent_task->finish),"Y/m/d"));
+                } else {
+                  echo ('Chưa hoàn thành');
+                }
+              ?>
+            </div>
+            <div class="col-md-4">Mức độ hoàn thành công việc:</div>
+            <div class="col-md-8">{{ $recurrent_task->percentComplete}}%</div>
+            <div class="col-md-4">Trạng thái:</div>
+            <div class="col-md-8">{{ $recurrent_task->status }}</div>
+            <div class="col-md-4">Nhận xét:</div>
+            <div class="col-md-8">
+              <?php
+                if(isset($recurrent_task->comment)) {
+                  echo($recurrent_task->comment);
+                } else {
+                  echo ('Chưa có nhận xét');
+                }
+              ?>
+            </div>
             <!-- /.box -->
           </div>
         </div>
@@ -62,14 +107,38 @@ var_dump(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent
       <!-- /.col -->
     </div>
     <!-- /.row -->
+    <?php if ($recurrent_task->percentComplete != 100) { ?>
+      <div class="row">
+        <div class="col-xs-12">
+          <form id="update_task"" action="{{ route('capnhatcongviec', $recurrent_task->_id)}}" method="POST">
+            @method('PUT')
+            @csrf
+            <div class="form-group">
+              <label>Cập nhật tiến độ:</label>
+              <input type="text" class="form-control" id="percentComplete"  data-parsley-type="text" name="percentComplete">
+            </div>
+            <!-- /.box -->
+            <div>
+              <button type="submit" class="btn btn-block btn-success btn-comment">Cập nhật tiến độ</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    <?php } ?>
     <div class="row">
       <div class="col-xs-12">
-        <div class="form-group">
-          <label>Nhận xét:</label>
-          <textarea class="form-control" rows="5" placeholder="Nhận xét ..."></textarea>
-        </div>
-        <!-- /.box -->
-        <button type="button" class="btn btn-block btn-success btn-comment">Nhận xét</button>
+        <form id="create_task_form" action="{{ route('capnhatcongviec', $recurrent_task->_id)}}" method="POST">
+          @method('PUT')
+          @csrf
+          <div class="form-group">
+            <label>Nhận xét:</label>
+            <textarea class="form-control" rows="5" placeholder="Nhận xét ..." name="comment"></textarea>
+          </div>
+          <!-- /.box -->
+          <div>
+            <button type="submit" class="btn btn-block btn-success btn-comment">Nhận xét</button>
+          </div>
+        </form>
       </div>
       <!-- /.col -->
     </div>

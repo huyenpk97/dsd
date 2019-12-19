@@ -11,16 +11,28 @@
 |
 */
 
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
+Route::post('/', 'LoginController@saveToken' )->name('login_save_token');
+Route::group(['middleware' => ['web']], function () {
+
 Route::get('/', function () {
     return view('login');
 })->name('login');
 
+// Route::post('/', )->name('login_post');
+
 Route::get('/cauhinh_KPI', function () {
     return view('cauhinh_KPI');
 })->name('cauhinh_KPI');
-Route::get('/chitiet_KPIduan', function () {
-    return view('chitiet_KPIduan');
-})->name('chitiet_KPIduan');
+
+Route::get('/dsKPI_du_an', 'KPIManagementsController@listKPIProjects')->name('dsKPI_du_an');
+Route::get('/chitiet_KPIduan/{id}', 'KPIManagementsController@detailKPIProject')->name('chitiet_KPIduan');
+
+Route::post('/chitiet_KPIduan/{id}', 'KPIManagementsController@updateCriteria')->name('update_criteria');
+
 Route::get('/chitiet_KPIduanNV', function () {
     return view('chitiet_KPIduanNV');
 })->name('chitiet_KPIduanNV');
@@ -53,9 +65,9 @@ Route::get('/ds_baocao', function () {
     return view('ds_baocao');
 })->name('ds_baocao');
 
-Route::get('/ds_congviec_thuong_xuyen', function () {
-    return view('ds_congviec_thuong_xuyen');
-})->name('ds_congviec_thuong_xuyen');
+Route::get('/ds_congviec_thuong_xuyen/{id}', 'RecurrentsTask@ds_congviec_thuong_xuyen')->name('ds_congviec_thuong_xuyen');
+
+Route::get('/ds_congviec_thuong_xuyen_cty', 'RecurrentsTask@ds_congviec_thuong_xuyen_cty')->name('ds_congviec_thuong_xuyen_cty');
 
 Route::get('/ds_quytrinh', function () {
     return view('ds_quytrinh');
@@ -68,16 +80,12 @@ Route::get('/dsKPI_nhanvien', function () {
     return view('dsKPI_nhanvien');
 })->name('dsKPI_nhanvien');
 
-Route::get('/dsKPI_nhanvien', 'KPIManagementsController@listKPIDepartments')->name('dsKPI_nhanvien');
+Route::get('/dsKPI_nhanvien', 'KPIManagementsController@listKPIEmployees')->name('dsKPI_nhanvien');
 
-Route::get('/dsKPI_phongban', function () {
-    return view('dsKPI_phongban');
-})->name('dsKPI_phongban');
+Route::get('/dsKPI_phongban', 'KPIManagementsController@listKPIDepartments')->name('dsKPI_phongban');
 
 
-Route::get('/ketqua_congviec', function () {
-    return view('ketqua_congviec');
-})->name('ketqua_congviec');
+Route::get('/ketqua_congviec/{id}', 'RecurrentsTask@show')->name('ketqua_congviec');
 
 Route::get('/list_notification', function () {
     return view('list_notification');
@@ -103,9 +111,10 @@ Route::get('/taocongviec_quytrinh', function () {
     return view('taocongviec_quytrinh');
 })->name('taocongviec_quytrinh');
 
-Route::get('/taocongviec', function () {
-    return view('taocongviec');
-})->name('taocongviec');
+Route::get('/taocongviec', 'RecurrentsTask@create')->name('taocongviec');
+Route::post('/taocongviec', 'RecurrentsTask@store')->name('taocongviec.store');
+Route::put('/capnhatcongviec/{id}', 'RecurrentsTask@update')->name('capnhatcongviec');
+Route::delete('/xoacongviec/{id}', 'RecurrentsTask@delete')->name('xoacongviec');
 
 Route::get('/thongke_congviec', function () {
     return view('thongke_congviec');
@@ -127,3 +136,5 @@ Route::get('/create_task_project/{id}', function ($id) {
 Route::get('/chitiet_quytrinh/{id}', function ($id) {
     return view('chitiet_quytrinh', compact('id'));
 })->name('chitiet_quytrinh');
+
+});

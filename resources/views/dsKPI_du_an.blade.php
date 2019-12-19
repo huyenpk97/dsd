@@ -35,14 +35,13 @@
 
     <section class="content-header">
         <h1>
-            KPI theo dự án {{ $list_kpi_project->name ?? ''}}
+            KPI theo dự án
             <small></small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#">KPI phòng ban</a></li>
+            <li><a href="#">KPI dự án</a></li>
 
-            <li class="active">Chi tiết KPI dự án</li>
         </ol>
     </section>
 
@@ -50,89 +49,96 @@
     <section class="content">
 
         <!-- SELECT2 EXAMPLE -->
-        
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Lọc</h3>
+            </div>
+            <div class="box-header with-border">
+                <form action="{{ route('dsKPI_du_an')}}" method="GET" role="form" class="form-inline">
+                    @csrf
+                    <div class="form-group">
+                        <label>Năm</label>
+                        <input type="number" class="form-control" name= "year" min="2000" max="2099" step="1" value="{{ $_GET['year'] ?? 2019}}" />
+          
+                    </div>
+          
+                    <button type="submit" class="btn btn-primary">Lọc <i class="fa fa-refresh"></i></button>
+                </form>
+
+                @if($isEmpty )
+                    <h3 style="color: red;">{{ $list_kpi_projects->result}}</h3>
+                @endif
+            </div>
+        </div>
+        @if(!$isEmpty )
         <div class="box">
             <div class="box-body ">
                 <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
             </div>
         </div>
+        @endif
         <!-- /.row -->
         <div class="box">
-            <form action="{{ route('update_criteria', $list_kpi_project->id_project)}}" method="post">
-            @csrf
-                <div class="box-header">
-                    <h3 class="box-title">Bảng thống kê kpi dự án</h3>
-                    <button class="btn btn-primary" style="float: right;">Cập nhật</button>
-                </div>
-                <div class="box-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th style="width: 40px">STT</th>
-                            <th>Tên tiêu chí</th>
-                            <th style="width: 80px">Chỉ tiêu</th>
-                            <th style="width: 80px">Kết quả đạt được</th>
-                            <th style="width: 80px">Trọng số KPI</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <?php $index = 1;
-                                $list_name_kpi = '';
-                                $list_kpi_standard = '';
-                                $list_kpi_reality = '';
-                            ?>
-                            @foreach($list_kpi_project->reality as $kpi_project)
-                                <?php 
-                                $list_name_kpi .= '"' . $kpi_project->name . '",';
-                                $list_kpi_reality .= '' . $kpi_project->data  . ',' ;
-                                $list_kpi_standard .= '' .  $kpi_standard[$index - 1] . ',';
-                                ?>
-                                <tr>
-                                    <td>{{ $index++}}</td>
-                                    <td>{{ $kpi_project->name }}
-                                        <input type="hidden" name="name_kpi_project[]" value="{{ $kpi_project->name }}">
-                                    </td>
-                                    <td style="color: blue; font-weight: bold;">{{ $kpi_standard[$index - 2] }}</td>
-                                   <?php  if(in_array($kpi_project->name, $default_criteria)){ ?>
-                                    <td style="font-weight: bold"><input type="number" min="0" max="1" step="0.01" class="form-control" name="kpi_project[]" id="" readonly  value="{{ $kpi_project->data }}"></td>
-                                   <?php  }else{ ?>
-                                    <td style="font-weight: bold"><input type="number" min="0" max="1" step="0.01" class="form-control" name="kpi_project[]" id=""  value="{{ $kpi_project->data }}"></td>
-                                   <?php }?>                                 
-                                    <td><input type="hidden" name="ratios[]" value="{{ $kpi_project->ratio }}">{{ $kpi_project->ratio }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
+            <div class="box-header">
+                <h3 class="box-title">Bảng thống kê chỉ tiêu kpi dự án</h3>
+                <form action="{{ route('dsKPI_du_an')}}" method="GET" role="form" class="form-inline">
+                    @csrf
+                    <div class="form-group">
+                        <label></label>
+                        <select name="max_min" id="" class="form-control">
+                            <option value="max" <?php echo (old('max_min') == "max" ? "selected" : '' )?>>Dự án có KPI cao nhất</option>
+                            <option value="min"<?php echo( old('max_min') == "min" ? "selected" : '') ?>>Dự án có KPI thấp nhất</option>
+                        </select>
+          
+                    </div>
+          
+                    <button type="submit" class="btn btn-primary">Lọc <i class="fa fa-refresh"></i></button>
+                </form>
+            </div>
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th >STT</th>
+                        <th >Tên dự án</th>
+                        <th >KPI tiêu chuẩn</th>
+                        <th>KPI đạt được</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $index = 1;
+                        $percent = '';
+                        $name_projects = '';
+
+                    ?>
+                    @if(!$isEmpty )
+                        @foreach($list_kpi_projects as $kpi_project)
+                        <?php $percent .= '' . floor(($kpi_project->kpi/ $kpi_project->kpi_standard)*100) . ',';
+                            $name_projects .= '"' . $kpi_project->name . '",';
+                        ?>
                             <tr>
-                                <th style="width: 40px"></th>
-                                <th style="text-align: right;">KPI toàn dự án</th>
-                                <th style="width: 80px">{{ $list_kpi_project->kpi_standard }}</th>
-                                <th style="width: 80px"> {{ $list_kpi_project->kpi }}</th>
+                                <td>{{ $index++}}</td>
+                                <td>{{ $kpi_project->name }}</td>
+                                <td>{{ $kpi_project->kpi_standard }}</td>
+                                <td>{{ $kpi_project->kpi }}</td>
+                                <td><a href="{{ route('chitiet_KPIduan', $kpi_project->id_project)}}"><button class="btn btn-default">Chi tiết</button></a></td>
                             </tr>
-                            @if(isset($newKPI))
-                                <tr>
-                                    <th style="width: 40px"></th>
-                                    <th style="text-align: right;"></th>
-                                    <th style="width: 80px"></th>
-                                    <th colspan="2"> KPI dự án mới cập nhật thành:  {{ $newKPI->newKpiProject }}</th>
-                                </tr>
-                            @endif
-                        </tfoot>
-                        <input type="hidden" name="id_criteria" value="{{ $list_kpi_project->id_criteria }}">
-                        <input type="hidden" name="id_project" value="{{ $list_kpi_project->id_project }}">
-
+                        @endforeach
                         <?php 
-
-                            rtrim($list_name_kpi, ',') ;
-                            rtrim($list_kpi_reality, ',') ;
-                            rtrim($list_kpi_standard, ',') ;
+                            
+                            rtrim($percent, ', ');
+                            rtrim($name_projects ,', ');
 
 
                         ?>
+                    @endif
 
-                    </table>
-                </div>
-            </form>
+                   
+                    </tbody>
+
+                </table>
+            </div>
 
         </div>
 
@@ -202,21 +208,15 @@
     green: 'rgb(75, 192, 192)',
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
-    grey: 'rgb(201, 203, 207)'
+    grey: 'rgb(201, 203, 207)'  
   };
   var chartData = {
-			labels: [<?php echo $list_name_kpi; ?>],
+			labels: [<?php echo $name_projects ;?>],
 			datasets: [{
-				type: 'line',
-				label: 'KPI Standdard',
-				borderColor: window.chartColors.blue,
-				borderWidth: 2,
-				data: [<?php echo $list_kpi_standard; ?>]
-			}, {
 				type: 'bar',
-				label: 'KPI đạt được',
-				backgroundColor: window.chartColors.red,
-				data: [<?php echo $list_kpi_reality; ?>],
+				label: 'Phần trăm hoàn thành KPI dự án',
+				backgroundColor: window.chartColors.green,
+				data: [<?php echo $percent; ?>],
 				borderColor: 'white',
 				borderWidth: 2
 			}
@@ -225,28 +225,28 @@
 		};
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
-      ctx.height = 500;
-			var mixedChart = new Chart(ctx, {
-				type: 'bar',
-				data: chartData,
-				options: {
-					responsive: true,
-					tooltips: {
-						mode: 'index',
-						intersect: true
-					},
-                    scales: {
+            ctx.height = 500;
+                    var mixedChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            tooltips: {
+                                mode: 'index',
+                                intersect: true
+                            },
+                            scales: {
                                 yAxes: [{
                                     ticks: {
                                         beginAtZero:true,
                                         min: 0,
-                                        max: 1    
+                                        max: 100    
                                     }
                                 }]
                             }
-				}
-			});
-		};
+                        }
+                    });
+                };
             //Initialize Select2 Elements
             $('.select2').select2()
 

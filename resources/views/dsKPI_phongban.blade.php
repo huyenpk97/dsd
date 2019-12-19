@@ -30,6 +30,9 @@
     {{-- <script src="{{ asset('js/format_managements/index.js') }}"></script> --}}
 @endpush
 @section('content')
+<?php 
+  $result =  @file_get_contents('https://dsd10-kong.herokuapp.com/kpi-all-company?startTime=2019-10-01 00:00:00&endTime=2019-12-30 00:00:00');
+?>
 <section class="content-header">
       <h1>
         KPI phòng ban
@@ -48,38 +51,123 @@
       <!-- SELECT2 EXAMPLE -->
       <div class="box box-default">
         <div class="box-header with-border">
-          <h3 class="box-title">Danh sách KPI </h3>
+          <h3 class="box-title">KPI phòng ban</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
          <div class="col-md-6"></div>
-         <div class="col-md-1"><label>Lọc</label></div>
         <?php 
         // $department_count;
-        $a = file_get_contents('http://206.189.34.124:5000/api/group8/departments');
-        // echo $a;  
-        $response = json_decode($a);
-
-        $list_department = $response->departments;
+        
         $department_count=count($list_department);
         ?>
-        <div class="col-md-5 form-inline">
-          <label>Phòng ban</label>
-          <select class="form-control" id="sel_depart">
-           <?php for ($i =0; $i< count($list_department); $i++){?>
-            <option value="<?=$list_department[$i]->id?>"><?php echo ($list_department[$i]->department_name)?></option>
-          <?php } ?> 
-        </select>
+        <div class="col-md-6 form-inline">
+        
+        <form action="{{ route('dsKPI_phongban')}}" method="GET" class="form-inline">
+      
+          <div class="form-group">
+              <label>Phòng ban</label>
+              <select class="form-control" id="sel_depart" name="sel_depart">
+              <?php for ($i =0; $i< count($list_department); $i++){?>
+                <option value="<?=$list_department[$i]->id?>" <?php echo  isset($_GET['sel_depart']) ? ($_GET['sel_depart'] == $list_department[$i]->id ? 'selected' : '') : '';?> ><?php echo ($list_department[$i]->department_name)?></option>
+              <?php } ?> 
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Lọc</button>
+        </form>
       </div>
-     
+      </div>
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Thống kê KPI theo các tiêu chí {{ $department['department_name']}}</h3>
+        </div>
+        <div class="box-body ">
+            <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Thống kê KPI theo các tháng {{ $department['department_name']}}</h3>
+        </div>
+        <div class="box-body ">
+          <canvas id="kpi_depart_months" width="100" height="25" style="height: 500 !important;"></canvas>
+        </div>
+      </div>
+
+      <div class="box box-default">
+    <div class="box-header with-border">
+        Xếp Hạng Phòng Ban và nhân viên có KPI cao nhất
     </div>
-    <div class="box-body ">
-        <canvas id="canvas" width="100" height="25" style="height: 500 !important;"></canvas>
-      </div>
+    <!-- /.box-header -->
+    <div class="box-body row">
+        <div class="table-responsive col-md-6">  
+            <h3>Xếp hạng những nhân viên có KPI cao </h3>           
+            <table class="table table-bordered ">
+                <thead>
+                    <tr>
+                      <th>Xếp hạng</th>
+                      <th>Tên nhân viên</th>
+                      <th>KPI</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                @if($result)
+                  <?php  
+                     $kpi_employees = $result->data;
+                  for ($i=0; $i < 5; $i++) { 
+                  ?>
+                      <tr>
+                        <td>{{ $i + 1}}</td>
+                        <td>{{ $kpi_employees->employee_id}}</td>
+                        <td>Hành chính nhân sự</td>
+                        <td>{{ $kpi_employees->result}}</td>
+                      </tr>
+                      <?php   }?>
+                  @else 
+                    <h3 style="color: blue;"> Dữ liệu chưa sẵn sàng</h3>
+                  @endif
+                  </tbody>
+            </table>
+          </div>
+          <div class="table-responsive col-md-6">  
+              <h3>Xếp hạng những nhân viên có KPI có thấp nhất </h3>           
+              <table class="table table-bordered ">
+                  <thead>
+                      <tr>
+                        <th>Xếp hạng</th>
+                        <th>Tên nhân viên</th>
+                        <th>Phòng ban</th>
+                        <th>KPI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @if($result)
+                      <?php  
+                        $kpi_employees = $result->data;
+                        $index = 1;
+                      for ($i= count($kpi_employees); $i > count($kpi_employees) - 5; $i--) { 
+                      ?>
+                          <tr>
+                            <td>{{ $index}}</td>
+                            <td>{{ $kpi_employees->employee_id}}</td>
+                            <td>Hành chính nhân sự</td>
+                            <td>{{ $kpi_employees->result}}</td>
+                          </tr>
+                          <?php   }?>
+                      @else 
+                        <h3 style="color: blue;"> Dữ liệu chưa sẵn sàng</h3>
+                      @endif
+                    </tbody>
+              </table>
+          </div>
+    </div>
+  </div>
+     
     <!-- /.row -->
     <div class="box">
       <div class="box-header">
-        <h3 class="box-title">Bảng KPI chi tiết của phòng ban</h3>
+        <h3 class="box-title">Bảng KPI chi tiết của phòng ban {{ $department['department_name']}}</h3>
       </div>
       <div class="box-body">
        <table id="example1" class="table table-bordered table-striped">
@@ -178,6 +266,10 @@
   })
 </script>
 <!-- Page script -->
+
+<?php 
+ 
+?>
 <script>
   $(function () {
 
@@ -225,8 +317,36 @@
   ]
 
 		};
+
+    var data_kpi_depart_months = {
+			labels: ['Tháng 1', ' Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+			datasets: [ {
+				type: 'bar',
+				label: 'KPI phòng ban theo tháng',
+				backgroundColor: window.chartColors.green,
+				data: [
+          <?= $KPI_depart_months[1] ?>,
+					<?= $KPI_depart_months[2] ?>,
+					<?= $KPI_depart_months[3] ?>,
+					<?= $KPI_depart_months[4] ?>,
+					<?= $KPI_depart_months[5] ?>,
+					<?= $KPI_depart_months[6] ?>,
+					<?= $KPI_depart_months[7] ?>,
+          <?= $KPI_depart_months[8] ?>,
+					<?= $KPI_depart_months[9] ?>,
+					<?= $KPI_depart_months[10] ?>,
+					<?= $KPI_depart_months[11] ?>,
+					<?= $KPI_depart_months[12] ?>
+				],
+				borderColor: 'white',
+				borderWidth: 2
+			}
+  ]
+
+		};
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
+      var ctx_kpi_depart_months = document.getElementById('kpi_depart_months').getContext('2d');
       ctx.height = 500;
       console.log(ctx);
 			var mixedChart = new Chart(ctx, {
@@ -237,7 +357,37 @@
 					tooltips: {
 						mode: 'index',
 						intersect: true
-					}
+					},
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true,
+                      min: 0,
+                      max: 100    
+                  }
+              }]
+          }
+				}
+			});
+
+      var mixedChart = new Chart(ctx_kpi_depart_months, {
+				type: 'bar',
+				data: data_kpi_depart_months,
+				options: {
+					responsive: true,
+					tooltips: {
+						mode: 'index',
+						intersect: true
+					},
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true,
+                      min: 0,
+                      max: 1   
+                  }
+              }]
+          }
 				}
 			});
 		};

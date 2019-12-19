@@ -1,6 +1,6 @@
 @extends('layout')
 @section('title')
-    Danh sách project
+    Thống kê KPI công ty
 @endsection
 @push('header')
     {{-- <link rel="stylesheet" href="{{ asset('css/format_managements/index.css') }}"> --}}
@@ -43,11 +43,10 @@
           <div class="form-group">
               <label>Quý</label>
               <select class="form-control">
-                <option>Tuần 1</option>
-                <option>Tuần 2</option>
-                <option>Tuần 3</option>
-                <option>Tuần 4</option>
-                <option>Tuần 5</option>
+                <option>Quý 1</option>
+                <option>Quý 2</option>
+                <option>Quý 3</option>
+                <option>Quý 4</option>
                 </select>
           </div>
           <div class="form-group">
@@ -69,6 +68,10 @@
       <canvas id="canvas" height="105"></canvas>
     </div>
   </div>
+  <?php 
+    $result =  @file_get_contents('https://dsd10-kong.herokuapp.com/kpi-all-company?startTime=2019-10-01 00:00:00&endTime=2019-12-30 00:00:00');
+   
+  ?>
 
   <div class="box box-default">
     <div class="box-header with-border">
@@ -87,36 +90,21 @@
                     </tr>
                   </thead>
                   <tbody>
+                @if($result)
+                  <?php  
+                     $kpi_employees = $result->data;
+                  for ($i=0; $i < 5; $i++) { 
+                  ?>
                       <tr>
-                          <td>1</td>
-                          <td>Lã Mạnh Cường</td>
-                          <td>Hành chính nhân sự</td>
-                          <td>90</td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Nguyễn Chí Thanh</td>
-                          <td>Bộ phận sản xuất</td>
-                          <td>85</td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Nguyễn Duy Kỳ</td>
-                          <td>Bộ phận nghiên cứu và phát triển </td>
-                          <td>80</td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Trịnh Duy Hưng</td>
-                          <td>Bộ phận đảm bảo chất lươngj</td>
-                          <td>75</td>
-                        </tr>
-                        <tr>
-                          <td>5</td>
-                          <td>Kerlor Senglao</td>
-                          <td>Bộ phận bán hàng</td>
-                          <td>65</td>
-                        </tr>
+                        <td>{{ $i + 1}}</td>
+                        <td>{{ $kpi_employees->employee_id}}</td>
+                        <td>Hành chính nhân sự</td>
+                        <td>{{ $kpi_employees->result}}</td>
+                      </tr>
+                      <?php   }?>
+                  @else 
+                    <h3 style="color: blue;"> Dữ liệu chưa sẵn sàng</h3>
+                  @endif
                   </tbody>
             </table>
           </div>
@@ -132,36 +120,22 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Lã Mạnh Cường</td>
-                        <td>Hành chính nhân sự</td>
-                        <td>15</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Nguyễn Chí Thanh</td>
-                        <td>Bộ phận sản xuất</td>
-                        <td>20</td>
-                      </tr>
-                      <tr>
-                        <td>3</td>
-                        <td>Nguyễn Duy Kỳ</td>
-                        <td>Bộ phận nghiên cứu và phát triển </td>
-                        <td>25</td>
-                      </tr>
-                      <tr>
-                        <td>4</td>
-                        <td>Trịnh Duy Hưng</td>
-                        <td>Bộ phận đảm bảo chất lươngj</td>
-                        <td>35</td>
-                      </tr>
-                      <tr>
-                        <td>5</td>
-                        <td>Kerlor Senglao</td>
-                        <td>Bộ phận bán hàng</td>
-                        <td>45</td>
-                      </tr>
+                    @if($result)
+                      <?php  
+                        $kpi_employees = $result->data;
+                        $index = 1;
+                      for ($i= count($kpi_employees); $i > count($kpi_employees) - 5; $i--) { 
+                      ?>
+                          <tr>
+                            <td>{{ $index}}</td>
+                            <td>{{ $kpi_employees->employee_id}}</td>
+                            <td>Hành chính nhân sự</td>
+                            <td>{{ $kpi_employees->result}}</td>
+                          </tr>
+                          <?php   }?>
+                      @else 
+                        <h3 style="color: blue;"> Dữ liệu chưa sẵn sàng</h3>
+                      @endif
                     </tbody>
               </table>
           </div>
@@ -189,7 +163,29 @@
 <!-- Sparkline -->
 <script src="{{asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
 <!-- ChartJS -->
+
+
+<?php 
+  
+
+  
+  $list_department = (array) json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
+  $list_name_depart = '';
+  $kpi_depart = '';
+  foreach($list_department as $department){
+   $list_name_depart .= " '" .$department->department_name . "', ";
+    $kpi_depart .=  " " . json_decode(file_get_contents('http://18.217.21.235:8083/api/v1/departmentKPI/getDepartmentKPIByMonth?month=11&year=2019&departmentId=' . $department->id))->data->kpiValue . ",";
+    
+  }
+
+
+  rtrim($list_name_depart, ", ");
+  rtrim($kpi_depart, ", ");
+
+
+?>
 <script>
+
  $(function () {
 
   window.chartColors = {
@@ -202,33 +198,32 @@
     grey: 'rgb(201, 203, 207)'
   };
   var chartData = {
-			labels: ["Office & HR", 'Production', 'Accounting', 'Sales', 'Stock', 'R&D', 'QoC'],
+			labels: [<?php echo $list_name_depart; ?>],
 			datasets: [{
 				type: 'line',
 				label: 'KPI của công ty',
 				borderColor: window.chartColors.blue,
 				borderWidth: 2,
 				data: [
-				70,
-				70,
-				70,
-				70,
-				70,
-				70,
-				70
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+				0.70,
+        0.70,
+        0.70,
+        0.70,
+        0.70,
+        0.70
 				]
 			}, {
 				type: 'bar',
 				label: 'KPI từng phòng ban',
 				backgroundColor: window.chartColors.red,
 				data: [
-				80,
-				70,
-				69,
-				75,
-				95,
-				45,
-				67
+				<?= $kpi_depart ?>,
 				],
 				borderColor: 'white',
 				borderWidth: 2
