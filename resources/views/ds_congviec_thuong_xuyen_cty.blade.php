@@ -28,7 +28,7 @@
 @endpush
 @section('content')
 <?php 
-  $list_department = (array) json_decode(@file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
+  $list_department = (array) json_decode(@file_get_contents('http://it4883dms3.pagekite.me/api/departments'));
   $numberTasksFinished = '';
   $numberTasksDoing = '';
   $numberTasksOverdue = '';
@@ -38,7 +38,7 @@
   $numberTasksOverdue_arr =  array();
   $numberTasksAll_arr =  array();
   foreach($list_department as $department){
-    $list_name_depart .= " '" .$department->department_name . "', ";
+    $list_name_depart .= " '" .$department->organizationName . "', ";
     $statistics = json_decode(@file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $department->id));
     $numberTasksDoing .=  '' . $statistics->doing->count . ',';
     $numberTasksFinished .= '' . $statistics->finished->count . ',';
@@ -47,7 +47,7 @@
     $numberTasksFinished_arr[] = $statistics->finished->count;
     $numberTasksDoing_arr[] = $statistics->doing->count;
     $numberTasksOverdue_arr[] = $statistics->overdue->count;
-    $numberTasksAll_arr[] = $statistics->finished->count;
+    $numberTasksAll_arr[] = $statistics->all->count;
    
   }
 
@@ -126,7 +126,7 @@
                 ?>
                     <tr>
                         <td><?php  echo $index++ ;?></td>
-                        <td><?php  echo $list_department[$i]->department_name; ?></td>
+                        <td><?php  echo $list_department[$i]->organizationName; ?></td>
                         <td><button class="btn btn-default"><?= $numberTasksAll_arr[$i] ?></button></button></td>
                         <td><button class="btn btn-warning"><?=  $numberTasksDoing_arr[$i] ?></button></td>
                         <td><button class="btn btn-primary"><?=   $numberTasksFinished_arr[$i] ?></button></td>

@@ -30,7 +30,7 @@
 <?php 
 
   $statistics = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $id));
-  $list_recurrent_task =  $statistics->all->tasks;
+  $list_recurrent_task =  json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/departments/' . $id));
   $numberTasks =  $statistics->all->count != 0 ? $statistics->all->count : 1;
   $numberTasksDoing = $statistics->doing->count;
   $numberTasksFinished = $statistics->finished->count;
@@ -129,7 +129,7 @@
                     <td><div class="form-group">
                       <label>Tuần</label>
                       <select class="form-control">
-                        <option>Tuần 1</option> <option>Tuần 2</option> <option>Tuần 3</option> <option>Tuần 4</option> <option>Tuần 5</option> <option>Tuần 6</option> <option>Tuần 7</option> <option>Tuần 8</option> <option>Tuần 9</option> <option>Tuần 10</option> <option>Tuần 11</option> <option>Tuần 12</option> <option>Tuần 13</option> <option>Tuần 14</option> <option>Tuần 15</option> <option>Tuần 16</option> <option>Tuần 17</option> <option>Tuần 18</option> <option>Tuần 19</option> <option>Tuần 20</option> <option>Tuần 21</option> <option>Tuần 22</option> <option>Tuần 23</option> <option>Tuần 24</option> <option>Tuần 25</option> <option>Tuần 26</option> <option>Tuần 27</option> <option>Tuần 28/<option> <option>Tuần 29</option> <option>Tuần 30</option> <option>Tuần 31</option> <option>Tuần 32</option> <option>Tuần 33</option> <option>Tuần 34</option> <option>Tuần 35</option> <option>Tuần 36</option> <option>Tuần 37</option> <option>Tuần 38</option> <option>Tuần 39</option> <option>Tuần 40</option> <option>Tuần 41</option> <option>Tuần 42</option> <option>Tuần 43</option> <option>Tuần 44</option> <option>Tuần 45</option> <option>Tuần 46</option> <option>Tuần 47</option> <option>Tuần 48</option> <option>Tuần 49</option> <option>Tuần 50</option> <option>Tuần 51</option> <option>Tuần 52</option>
+                        <option>Tuần 1</option> <option>Tuần 2</option> <option>Tuần 3</option> <option>Tuần 4</option>
                        </select>
                      </div></td>
                      <td><div class="form-group">
@@ -187,6 +187,7 @@
                   <th>Phòng  ban liên quan</th>
                   <th>Trạng thái thực hiện</th>
                   <th>Trạng thái</th>
+                  <th>Nhãn công việc</th>
                   <th>Hành động</th>
                 </tr>
                 </thead>
@@ -199,21 +200,48 @@
                         <td><?php  echo ( $current_task->department->name ?? '' ) ; ?></td>
                         <td> 
                           <?php  
-                          if (!empty($current_task->codepartment)) 
+                          if (!empty($current_task->coDepartments)) 
                           {
-                            $coDepartment = array_column($current_task->codepartment, 'name');
+                            $coDepartment = array_column($current_task->coDepartments, 'name');
                             $coDepartmentString = implode("|",$coDepartment);
+                            echo ($coDepartmentString);
                           }
                           ?>
                         </td>
                         <td>
+                        <?php
+                          if(!isset($current_task->percentComplete)) {
+                            $current_task->percentComplete = 0;
+                          }
+                        ?>
                           <input type="text" class="knob" value="<?php echo $current_task->percentComplete; ?>" data-min="0" data-max="100"
                           data-fgColor="<?php
                               echo ($current_task->percentComplete > 50 ? '#00a65a' : '#dd4b39' ) ;
                           ?>"></td>
                           <td><?php echo $current_task->status; ?></td>
+                          <td> 
+                          <?php  
+                          if (!empty($current_task->labels)) 
+                          {
+                            $labels = array_column($current_task->labels, 'name');
+                            $label = implode("|",$labels);
+                            echo ($label);
+                          }
+                          ?>
+                        </td>
                         <td>  
                             <a href="{{ route('ketqua_congviec', $current_task->_id)}}" class="btn btn-primary">Chi tiết</a>
+                            <form id="delete_task" action="{{ route('xoacongviec', $current_task->_id)}}" method="POST">
+                              @method('DELETE')
+                              @csrf
+                              <div class="form-group">
+                                <input type="hidden" name="idDepartment" value='<?= $id; ?>'>
+                              </div>
+                              <!-- /.box -->
+                              <div>
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                              </div>
+                            </form>
                         </td>
                     </tr>
 

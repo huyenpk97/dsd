@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('login');
 })->name('login');
 
-Route::post('/', )->name('login_post');
+// Route::post('/', )->name('login_post');
 
 Route::get('/cauhinh_KPI', function () {
     return view('cauhinh_KPI');
@@ -113,6 +113,8 @@ Route::get('/taocongviec_quytrinh', function () {
 
 Route::get('/taocongviec', 'RecurrentsTask@create')->name('taocongviec');
 Route::post('/taocongviec', 'RecurrentsTask@store')->name('taocongviec.store');
+Route::put('/capnhatcongviec/{id}', 'RecurrentsTask@update')->name('capnhatcongviec');
+Route::delete('/xoacongviec/{id}', 'RecurrentsTask@delete')->name('xoacongviec');
 
 Route::get('/thongke_congviec', function () {
     return view('thongke_congviec');

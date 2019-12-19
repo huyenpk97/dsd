@@ -43,8 +43,8 @@
 @section('content')
 
 <?php 
-  $list_department =  json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments'))->departments;
-  $list_employee = json_decode(file_get_contents('http://206.189.34.124:5000/api/group8/departments/1'))->department->positions;
+  $list_department =  json_decode(file_get_contents('http://it4883dms3.pagekite.me/api/departments'));
+  $list_employee = json_decode(file_get_contents('http://it4883dms3.pagekite.me/api/users'));
   
   function callAPI($method, $url, $data){
    $curl = curl_init();
@@ -146,32 +146,30 @@
         </div>
         <div class="form-group">
           <label>Phòng ban thực hiện</label>
-          <select class="form-control select2" required id="department" name="department" style="width: 100%;">
-            <?php 
-              for ($i =0; $i < count($list_department); $i++){?>
-              <option value='<?= $list_department[$i]->id; ?>,<?= $list_department[$i]->department_name; ?>'> 
-                
-                <?php echo ($list_department[$i]->department_name)?></option>
+          <select class="form-control select2" id="department" name="department" style="width: 100%;">
+            <?php for ($i =0; $i< count($list_department); $i++){ ?>
+              <option value='<?= $list_department[$i]->id; ?>,<?= $list_department[$i]->organizationName; ?>'>
+                <?php echo ($list_department[$i]->organizationName)?>
+              </option>
             <?php } ?> 
-
           </select>
         </div>
         <div class="form-group">
-          <label>Nhân viên thực hiện</label>
-          <select class="form-control select2" required id="doer" name="doer" style="width: 100%;">
-            @foreach($list_employee as $employee)
-            <option value='<?= $employee->employee_id; ?>,<?= $employee->name; ?>'> 
-            {{ $employee->name }}</option>
-            @endforeach
-
+          <label>Các phòng ban liên quan</label>
+          <select class="form-control select2" multiple="multiple"  id="departments_related" name="coDepartments[]" data-placeholder="Chọn các phòng ban"
+          style="width: 100%;">
+            <?php for ($i =0; $i< count($list_department); $i++){?>
+              <option value='<?= $list_department[$i]->id; ?>,<?= $list_department[$i]->organizationName; ?>'>
+                <?php echo ($list_department[$i]->organizationName)?>
+              </option>
+            <?php } ?> 
           </select>
         </div>
-
         <div class="form-group">
           <label>Người kiểm tra</label>
           <select class="form-control select2" id="reviewer" name="reviewer" style="width: 100%;">
             @foreach($list_employee as $employee)
-              <option value='<?= $employee->employee_id; ?>,<?= $employee->name; ?>'> 
+              <option value='<?= $employee->id; ?>,<?= $employee->name; ?>'> 
               {{ $employee->name }}</option>
             @endforeach
           </select>
@@ -179,7 +177,6 @@
         <!-- /.form-group -->
         <div class="form-group">
           <label>Ngày bắt đầu:</label>
-
           <div class="input-group date">
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
@@ -190,28 +187,17 @@
         </div>
         <div class="form-group">
           <label>Deadline:</label>
-
           <div class="input-group date">
             <div class="input-group-addon">
               <i class="fa fa-calendar"></i>
             </div>
-              <input type="text" required class="form-control pull-right" data-parsley-type="text" name="finish" id="deadline"  value="">
+              <input type="text" required class="form-control pull-right" data-parsley-type="text" name="due" id="deadline"  value="">
           </div>
           <!-- /.input group -->
         </div>
         <!-- /.col -->
+    
         <div class="form-group">
-          <label>Các phòng ban liên quan</label>
-          <select class="form-control select2" multiple="multiple"  id="departments_related" name="coDepartments[]" data-placeholder="Chọn các phòng ban"
-          style="width: 100%;">
-          <?php for ($i =0; $i< count($list_department); $i++){?>
-              <option value='<?= $list_department[$i]->id; ?>,<?= $list_department[$i]->department_name; ?>'>
-                <?php echo ($list_department[$i]->department_name)?>
-              </option>
-            <?php } ?> 
-        </select>
-      </div>
-      <div class="form-group">
           <label>Nhãn công việc</label>
           <select class="form-control select2" required id="type_task"  multiple="multiple" name="labels[]" style="width: 100%;">
           <?php 
@@ -223,8 +209,8 @@
 
           </select>
         </div>
-        <input type="hidden" name="type" value="individual">
-        <input type="hidden" name="status" value="doing">
+        <input type="hidden" name="type" value="department">
+        <!-- <input type="hidden" name="status" value="doing"> -->
       <div class="form-group">
         <!-- /.col -->
         <button type="submit" class="btn btn-block btn-success btn-create">Tạo công việc</button>
