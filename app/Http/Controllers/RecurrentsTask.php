@@ -15,6 +15,24 @@ class RecurrentsTask extends Controller
         return view('ds_congviec_thuong_xuyen', compact('id'));
     }
 
+    public function ds_congviec_thuong_xuyen_truong_phong($id)
+    {
+
+        return view('ds_congviec_thuong_xuyen_truong_phong', compact('id'));
+    }
+
+    public function ds_congviec_thuong_xuyen_truong_phong_chi_tiet($id)
+    {
+
+        return view('ds_congviec_thuong_xuyen_truong_phong_chi_tiet', compact('id'));
+    }
+
+    public function ds_congviec_thuong_xuyen_nhan_vien($id)
+    {
+
+        return view('ds_congviec_thuong_xuyen_nhan_vien', compact('id'));
+    }
+
     public function ds_congviec_thuong_xuyen_cty()
     {
 
@@ -26,6 +44,11 @@ class RecurrentsTask extends Controller
        
         return view('taocongviec');
 
+    }
+
+    public function employee($id)
+    {
+        return view('taocongviecnhanvien', compact('id'));
     }
 
     public function store(Request $request)
@@ -92,14 +115,14 @@ class RecurrentsTask extends Controller
         $data['creator'] = $reviewer;
 
         // dd($data);
-        $data = json_encode($data);
+        $dataRequest = json_encode($data);
        
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://falling-frog-38743.pktriot.net/api/recurrent-tasks/');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataRequest);
 
         $headers = array();
         $headers[] = 'Accept: application/json';
@@ -114,8 +137,12 @@ class RecurrentsTask extends Controller
         curl_close($ch);
         // dd($data, $result);
 
-        return redirect()->route('ds_congviec_thuong_xuyen_cty');
-
+        // dd($data, isset($data['departmentId']), $data['departmentId']);
+        if (isset($data['departmentId'])) {
+            return redirect()->route('ds_congviec_thuong_xuyen_truong_phong_chi_tiet', [$data['departmentId']]);
+        } else {
+            return redirect()->route('ds_congviec_thuong_xuyen_cty');
+        }
     }
 
     public function update($id, Request $request)

@@ -27,10 +27,9 @@
     {{-- <script src="{{ asset('js/format_managements/index.js') }}"></script> --}}
 @endpush
 @section('content')
-<?php 
-  // dd($userDepartment);
-  $statistics = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?departmentId=' . $id));
-  $list_recurrent_task =  json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/departments/' . $id));
+<?php
+  $statistics = json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?userId=' . $id));
+  $list_recurrent_task =  json_decode(file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/users/' . $id));
   $numberTasks =  $statistics->all->count != 0 ? $statistics->all->count : 1;
   $numberTasksDoing = $statistics->doing->count;
   $numberTasksFinished = $statistics->finished->count;
@@ -175,16 +174,13 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <a href="{{ route('taocongviec') }}" class="btn btn-success">Tạo công việc</a>
-              <br>
-              <br>
-              <table id="table_recurrent_task" class="table table-bordered table-striped">
+              <table id="table_recurrent_task_employees" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>STT</th>
                   <th>Tên công việc</th>
-                  <th>Phòng ban phụ trách</th>
-                  <th>Phòng  ban liên quan</th>
+                  <th>Nhân viên phụ trác</th>
+                  <th>Nhân viên liên quan</th>
                   <th>Trạng thái thực hiện</th>
                   <th>Trạng thái</th>
                   <th>Nhãn công việc</th>
@@ -197,14 +193,14 @@
                     <tr>
                         <td><?php  echo $index++ ;?></td>
                         <td><?php  echo $current_task->name; ?></td>
-                        <td><?php  echo ( $current_task->department->name ?? '' ) ; ?></td>
+                        <td><?php  echo ( $current_task->doer->name ?? '' ) ; ?></td>
                         <td> 
                           <?php  
-                          if (!empty($current_task->coDepartments)) 
+                          if (!empty($current_task->coDoers)) 
                           {
-                            $coDepartment = array_column($current_task->coDepartments, 'name');
-                            $coDepartmentString = implode("|",$coDepartment);
-                            echo ($coDepartmentString);
+                            $coDoer = array_column($current_task->coDoers, 'name');
+                            $coDoerString = implode("|",$coDoer);
+                            echo ($coDoerString);
                           }
                           ?>
                         </td>
@@ -302,7 +298,7 @@
             }
           })
     });
-    $('#table_recurrent_task').DataTable()
+    $('#table_recurrent_task_employees').DataTable()
     $('#example2').DataTable({
       'paging'      : true,
       'lengthChange': false,

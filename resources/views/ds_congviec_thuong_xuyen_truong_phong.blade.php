@@ -36,6 +36,22 @@
   $numberTasksFinished = $statistics->finished->count;
   $numberTasksOverdue = $statistics->overdue->count;
 
+  $list_user = (array) json_decode(@file_get_contents('http://18.217.21.235:8083/api/v1/userOrganization/findByOrganization?organizationId=' . $id));
+  // dd($list_user);
+  $numberTasksFinishedUser = '';
+  $numberTasksDoingUser = '';
+  $numberTasksOverdueUser = '';
+  $list_name_user = '';
+  foreach($list_user as $user){
+    $user_info = json_decode(@file_get_contents('http://it4883dms3.pagekite.me/api/users/' . $user->userId));
+    // dd($user_info);
+    $list_name_user .= " '" .$user_info->name . "', ";
+    $statistics = json_decode(@file_get_contents('https://falling-frog-38743.pktriot.net/api/recurrent-tasks/statistics?userId=' . $user_info->id));
+    $numberTasksDoingUser .=  '' . $statistics->doing->count . ',';
+    $numberTasksFinishedUser .= '' . $statistics->finished->count . ',';
+    $numberTasksOverdueUser .= '' . $statistics->overdue->count . ',';
+  }
+  // dd($numberTasksDoingUser, $numberTasksFinishedUser, $numberTasksOverdueUser);
 ?>
      <!-- Content Header (Page header) -->
      <section class="content-header">
@@ -60,7 +76,8 @@
                 <div class="box-header with-border">
                   <i class="fa fa-bar-chart-o"></i>
 
-                  <h3 class="box-title">Biểu đồ công việc</h3>
+                  <h3 class="box-title">Biểu đồ công việc phòng</h3>
+                  <a href="{{ route('ds_congviec_thuong_xuyen', $id)}}" class="btn btn-primary">Chi tiết</a>
 
                   <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -168,93 +185,30 @@
             </div>
             <!-- /.col -->
           </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <!-- /.box -->
+          <div class="row">
+            <div class="col-12">
+              <!-- /.box -->
+              <!-- Donut chart -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <i class="fa fa-bar-chart-o"></i>
 
-          <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <a href="{{ route('taocongviec') }}" class="btn btn-success">Tạo công việc</a>
-              <br>
-              <br>
-              <table id="table_recurrent_task" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>STT</th>
-                  <th>Tên công việc</th>
-                  <th>Phòng ban phụ trách</th>
-                  <th>Phòng  ban liên quan</th>
-                  <th>Trạng thái thực hiện</th>
-                  <th>Trạng thái</th>
-                  <th>Nhãn công việc</th>
-                  <th>Hành động</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php $index = 1; ?>
-                @foreach($list_recurrent_task as $current_task)
-                    <tr>
-                        <td><?php  echo $index++ ;?></td>
-                        <td><?php  echo $current_task->name; ?></td>
-                        <td><?php  echo ( $current_task->department->name ?? '' ) ; ?></td>
-                        <td> 
-                          <?php  
-                          if (!empty($current_task->coDepartments)) 
-                          {
-                            $coDepartment = array_column($current_task->coDepartments, 'name');
-                            $coDepartmentString = implode("|",$coDepartment);
-                            echo ($coDepartmentString);
-                          }
-                          ?>
-                        </td>
-                        <td>
-                        <?php
-                          if(!isset($current_task->percentComplete)) {
-                            $current_task->percentComplete = 0;
-                          }
-                        ?>
-                          <input type="text" class="knob" value="<?php echo $current_task->percentComplete; ?>" data-min="0" data-max="100"
-                          data-fgColor="<?php
-                              echo ($current_task->percentComplete > 50 ? '#00a65a' : '#dd4b39' ) ;
-                          ?>"></td>
-                          <td><?php echo $current_task->status; ?></td>
-                          <td> 
-                          <?php  
-                          if (!empty($current_task->labels)) 
-                          {
-                            $labels = array_column($current_task->labels, 'name');
-                            $label = implode("|",$labels);
-                            echo ($label);
-                          }
-                          ?>
-                        </td>
-                        <td>  
-                            <a href="{{ route('ketqua_congviec', $current_task->_id)}}" class="btn btn-primary">Chi tiết</a>
-                            <form id="delete_task" action="{{ route('xoacongviec', $current_task->_id)}}" method="POST">
-                              @method('DELETE')
-                              @csrf
-                              <div class="form-group">
-                                <input type="hidden" name="idDepartment" value='<?= $id; ?>'>
-                              </div>
-                              <!-- /.box -->
-                              <div>
-                                <button type="submit" class="btn btn-danger">Xóa</button>
-                              </div>
-                            </form>
-                        </td>
-                    </tr>
+                  <h3 class="box-title">Biểu đồ công việc nhân viên</h3>
+                  <a href="{{ route('ds_congviec_thuong_xuyen_truong_phong_chi_tiet', $id)}}" class="btn btn-primary">Chi tiết</a>
 
-                  @endforeach
-                </tbody>
-              </table>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+              <div class="box-body">
+                <canvas id="canvas_manager" height="105"></canvas>
+              </div>
+              <!-- /.box-body-->
             </div>
-            <!-- /.box-body -->
           </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
+            <!-- /.col -->
+          </div>
       <!-- /.row -->
     </section>
      
@@ -372,5 +326,67 @@
     'thickness': 0.2,
     'tickColorizeValues': true
     });
+  
+  window.chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    blue: 'rgb(54, 162, 235)',
+    purple: 'rgb(153, 102, 255)',
+    grey: 'rgb(201, 203, 207)'
+  };
+
+  var chartData = {
+		labels: [<?php echo $list_name_user; ?>],
+		datasets: [
+      {
+        type: 'bar',
+        label: 'Số lượng công việc đang làm',
+        backgroundColor: window.chartColors.yellow,
+        data: [
+          <?= $numberTasksDoingUser ?>,
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+      },
+      {
+        type: 'bar',
+        label: 'Số lượng công việc đã hoàn thành',
+        backgroundColor: window.chartColors.green,
+        data: [
+          <?= $numberTasksFinishedUser ?>,
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+      },
+      {
+        type: 'bar',
+        label: 'Số lượng công việc quá hạn',
+        backgroundColor: window.chartColors.red,
+        data: [
+          <?= $numberTasksOverdueUser ?>,
+        ],
+        borderColor: 'white',
+        borderWidth: 2
+      }
+    ]
+	};
+	window.onload = function() {
+		var ctx = document.getElementById('canvas_manager').getContext('2d');
+    console.log(ctx);
+		var mixedChart = new Chart(ctx, {
+			type: 'bar',
+			data: chartData,
+			options: {
+				responsive: true,
+				tooltips: {
+					mode: 'index',
+					intersect: true
+				}
+			}
+		});
+	};
+
 </script>
 @endpush
